@@ -1,0 +1,160 @@
+﻿@*@model IEnumerable<WebApplication1.Models.catalog>*@
+@model PagedList.IPagedList<WebApplication1.Models.catalog>
+@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="col-md-12">
+    <div style="display:flex;justify-content:space-between">
+        <div>
+            <h1 class="h3 d-inline align-middle">Danh Mục</h1>
+        </div>
+        <div>
+            <nav aria-label="Page navigation example">
+
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
+           {
+               UlElementClasses = new[] { "pagination " },
+               LiElementClasses = new[] { "page-item", "page-link" },
+               LinkToPreviousPageFormat = "Trang trước",
+               LinkToNextPageFormat = "Trang tiếp",
+           })
+            </nav>
+            @*Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount*@
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</div>
+<div class="row">
+    <div class="col-12 col-lg-8 col-xxl-8 d-flex">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <input type="hidden" name="khachhang" id="khachhang" value="danhmuc" />
+                <h5 class="card-title mb-0">Danh sách</h5>
+            </div>
+            <table class="table table-borderless my-0">
+                <thead>
+                    <tr>
+                        <th>Ảnh minh họa</th>
+                        <th class="d-none d-xxl-table-cell">Tên danh mục</th>
+                        <th class="d-none d-xl-table-cell"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-light rounded-2">
+                                            <img style="height:100px;width:100px" class="p-2" src="~/Uploads/Catalogs/@Html.DisplayFor(modelItem => item.catalog_image)">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td class="d-none d-xxl-table-cell">
+                                <strong> @Html.DisplayFor(modelItem => item.catalog_name)</strong>
+
+                            </td>
+                            <td class="d-none d-xl-table-cell">
+                                @Html.ActionLink("!", "Edit", new { id = item.catalog_id }, new { @class = "btn btn-outline-info" })
+
+                                @Html.ActionLink("X", "Delete", new { id = item.catalog_id }, new { @class = "btn btn-outline-danger" })
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xxl-4 d-flex" style="width:363px">
+        <div class="card flex-fill w-100">
+            <div class="card-header">
+                <div class="card-actions float-end">
+                    <h5 class="card-title mb-0">Thêm mới danh mục</h5>
+                </div>
+                <div class="card-body d-flex w-100 ">
+
+                    @using (Html.BeginForm("Create", "catalogs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="m-sm-4">
+                            <div class="text-center">
+                                @*   <img src="img/avatars/avatar.jpg" alt="" class="img-fluid rounded-circle" width="132" height="132" />*@
+                            </div>
+                            <form>
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="mb-3">
+                                    <label class="form-label">Tên danh mục</label>
+                                    <input class="form-control form-control-lg" type="text" name="catalog_name" id="catalog_name" placeholder="Enter your catalog" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Image</label>
+                                    <input class="form-control form-control-lg" type="file" name="img" id="img" onchange="ImagesFileAsURL()" />
+                                    <div class="style_displayImg" id="displayImg"></div>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-lg btn-primary">Create</button>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function ImagesFileAsURL() {
+        var fileSelected = document.getElementById('img').files;
+        if (fileSelected.length > 0) {
+            var fileToLoad = fileSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (fileLoaderEvent) {
+                var srcData = fileLoaderEvent.target.result;
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+                document.getElementById('displayImg').innerHTML = newImage.outerHTML;
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+</script>
+
+@*@section scripts{
+
+        <script>
+            $(document).on('click', "button[name='btn_search']", function () {
+
+
+                var _khachhang = $("#khachhang").val();
+                var _search_admin = $("#search_admin").val();
+
+                console.log(_khachhang);
+                console.log(_search_admin);
+
+            });
+
+        </script>
+
+
+
+
+    }*@

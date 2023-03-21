@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="my-account pt-80 pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="title text-capitalize mb-30 pb-25"> Log in to your account</h3>
+                <form class="log-in-form">
+                    <div class="form-group row pb-3 text-center">
+                        <div class="col-md-6 offset-md-3">
+                            <div class="login-form-links">
+                                <label  name="thongbao" id="thongbao" style="color:red"  class="for-get"  value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-md-3 col-form-label">Email</label>
+                        <div class="col-md-6">
+                            <input type="email" name="gmail" class="form-control" id="gmail">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-md-3 col-form-label">Password</label>
+                        <div class="col-md-6">
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="password" class="form-control" name="matkhau" id="matkhau">
+                                <div class="input-group-prepend">
+                                    <button type="button" name=""
+                                            class="input-group-text  theme-btn--dark1 btn--md show-password">
+                                        show
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row pb-3 text-center">
+                        <div class="col-md-6 offset-md-3">
+                            <div class="login-form-links">
+                                <a href="#" class="for-get">Forgot your password?</a>
+                                <div class="sign-btn">
+                                    <button type="button" class="btn theme-btn--dark1 btn--md" name="dangnhap" id="dangnhap">Sign in</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row text-center mb-0">
+                        <div class="col-12">
+                            <div class="border-top">
+                                <a href="register.html" class="no-account">No account? Create one here</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+   
+
+    
+        $(document).on('click', "button[name='dangnhap']", function () {
+            
+            var _gmail = $("#gmail").val();
+            var _matkhau = $("#matkhau").val();
+          
+                $.ajax({
+                    url: '/Home/XLLogin',
+                    type: 'post',
+                    data: {
+                        gmail: _gmail,
+                        password: _matkhau,
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            window.location = data.url;
+                            console.log(data.msg);
+                            console.log(data._user);
+                          
+                        } else {
+                            console.log(data.msg);
+                            $("#thongbao").empty();
+                            $("#thongbao").append(data.msg);
+
+                        }
+                    }
+                })
+        });
+
+    </script>
+
+
+
+
+}

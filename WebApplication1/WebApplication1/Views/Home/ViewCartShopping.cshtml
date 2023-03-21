@@ -1,0 +1,382 @@
+﻿@using WebApplication1.Models;
+@{
+    ViewBag.Title = "viewCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Carts> Cart = Session["cart"] as List<Carts>;
+    int tamtinh = 0;
+}
+<style>
+    .txt_sl{
+        color: #1d1d1d;
+        background-color: #fff;
+        width: 80px;
+        border: 1px solid #ebebeb;
+        display: block;
+        text-align: center;
+    }
+</style>
+<section class="whish-list-section theme1 pt-10 pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mb-30">
+                <div class="table-responsive">
+                    <table id="tableSp" class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" scope="col"></th>
+                                <th class="text-center" scope="col">Ảnh sản phẩm</th>
+                                <th class="text-center" scope="col">Tên sản phẩm</th>
+                                <th class="text-center" scope="col">Giá</th>
+                                <th class="text-center" scope="col">Sl</th>
+                                <th class="text-center" scope="col">Thành tiền</th>
+                                <th class="text-center" scope="col">action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody">
+                            @{
+                                if (Cart == null)
+                                {
+                                    <tr>
+                                        <td> Chưa có sản phẩm</td>
+                                    </tr>
+
+
+                                }
+                                else
+                                {
+                                    foreach (var item in Cart)
+                                    {
+                                        tamtinh += item._sum;
+                                        using (Html.BeginForm("UpdateCartItem", "Home", new { id = item._product_id }, FormMethod.Post))
+                                        {
+
+                                            <tr>
+                                                <th class="text-center">
+
+                                                    <input type="checkbox" name="id_sanpham" value="@item._product_id" checked="@item._check" />
+                                                </th>
+                                                <th class="text-center" scope="row">
+                                                    <a href="~/Home/Product_Details/@item._product_id">
+                                                        <img class="product-image-main" style="width:80px;height:80px" src="~/Uploads/Products/@item._image_main" alt="thumbnail">
+                                                    </a>
+                                                </th> 
+                                                <td class="text-center" style="max-width:280px">
+                                                    <span class="whish-title">@item._product_name</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    @*  <span class="badge badge-danger position-static">In Stock</span>*@
+                                                    @item._price.ToString("N0") đ
+                                                </td>
+                                                <td class="text-center">
+                                                            <input class="txt_sl" type="number" name="quantity" id="quantity" min="1" step="1" value="@item._quantity">
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="whish-list-price">
+                                                        @item._sum.ToString("N0") đ
+                                                    </span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div style="display:flex;height:100%;width:100%;align-items:center;">
+                                                        <a class="btn btn-danger" href="~/Home/DeleteCartItem/@item._product_id"><i class="fas fa-times"></i></a>&nbsp;
+                                                        <button class="btn btn-info" type="submit"><i class="fas fa-check"></i></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+
+}
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-30">
+                @{ if (Session["user"] == null)
+                    {
+                        <div id="accordion">
+                            <div class="card">
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                     data-parent="#accordion">
+                                    <div class="card-body">
+                                        <form action="./assets/php/mail.php" class="personal-information">
+                                            <div class="order-asguest mt-2 mb-4">
+                                                <a href="#">Order as a guest</a> <span class="separator"></span>
+                                                <a class="gray" href="login.html">Thông tin người dùng</a>
+                                                <a class="gray" style="color:palegreen" href="~/Home/Login">Đăng nhập</a>
+
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="username" class="col-md-3 col-form-label">Tên người nhận</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" id="username" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="gmail" class="col-md-3 col-form-label">Email</label>
+                                                <div class="col-md-8">
+                                                    <input type="email" id="gmail" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="phone" class="col-md-3 col-form-label">Số điện thoại</label>
+                                                <div class="col-md-8">
+                                                    <input type="tel" id="phone" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="address" class="col-md-3 col-form-label">Địa chỉ</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" id="address" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-8">
+                                                    <div class="check-box-inner pt-0">
+                                                        <div class="">
+                                                            <input type="checkbox" name="create_tk" id="create_tk">
+                                                            <label for="20821">Bạn muốn tạo tài khoản</label>
+                                                            <p>
+                                                                Tạo tài khoản nhận thêm ưu đãi khủng.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        var a = Session["user"] as user_temp;
+
+
+
+                        <div id="accordion">
+
+                            <div class="card">
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                     data-parent="#accordion">
+                                    <div class="card-body">
+                                        <form action="./assets/php/mail.php" class="personal-information">
+                                            <div class="order-asguest mt-2 mb-4">
+                                                <a class="gray" href="login.html">Thông tin người dùng</a>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="username" class="col-md-3 col-form-label">Tên người nhận</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" id="username" class="form-control" value="@a._username" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="gmail" class="col-md-3 col-form-label">Email</label>
+                                                <div class="col-md-8">
+                                                    <input type="email" id="gmail" class="form-control" value="@a._gmail" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="phone" class="col-md-3 col-form-label">Số điện thoại</label>
+                                                <div class="col-md-8">
+                                                    <input type="tel" id="phone" class="form-control" value="@a._phone" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="address" class="col-md-3 col-form-label">Địa chỉ</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" id="address" class="form-control" value="@a._address" required>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+
+
+
+
+                <ul class="list-group cart-summary rounded-0">
+                    @*<li class="list-group-item d-flex justify-content-between align-items-center">
+                        <ul class="items">
+                            <li>1 item</li>
+                            <li>Shipping</li>
+                        </ul>
+                        <ul class="amount">
+                            <li>$11.90</li>
+                            <li>$7.00</li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <ul class="items">
+                            <li>Tạm tính</li>
+                            <li>Taxes</li>
+                        </ul>
+                        <ul class="amount">
+                            <li>@tamtinh.ToString("N0") đ</li>
+                            <li>$0</li>
+                        </ul>
+                    </li>*@
+                    <li class="list-group-item text-center">
+                        <button class="btn theme-btn--dark1 btn--md" id="BuyNow" name="BuyNow">MUA</button>
+                    </li>
+                </ul>
+
+                <div class="delivery-info mt-20">
+                    <ul>
+                        <li>
+                            <img src="~/assets/img/icon/10.png" alt="icon"> Security policy (edit with Customer
+                            reassurance module)
+                        </li>
+                        <li>
+                            <img src="~/assets/img/icon/11.png" alt="icon"> Delivery policy (edit with Customer
+                            reassurance module)
+                        </li>
+                        <li class="mb-0">
+                            <img src="~/assets/img/icon/12.png" alt="icon"> Return policy (edit with Customer
+                            reassurance module)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+           /* loadDsSanpham();*/
+        })
+
+        $(document).on('click', "button[name='BuyNow']", function () {
+            // lấy id sản phẩm
+            var s = [];
+            $('input[name="id_sanpham"]:checked').each(function () {
+                s.push($(this).attr('value'));
+            });
+           
+            console.log("s=" + s);
+            // Lấy thông tin người mua
+            var _username = $("#username").val();
+            var _gmail = $("#gmail").val();
+            var _address = $("#address").val();
+            var _phone = $("#phone").val();
+            var _checked = "no";
+            
+            $('input[name="create_tk"]:checked').each(function () {
+                _checked = "yes";
+                console.log(_checked);
+            });
+            if (s.length == 0) {
+           
+                Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    title: 'Chọn sản phẩm cần mua',
+                    showConfirmButton: false,
+                    //timer: 1000,
+                    width: '250px',
+                })
+
+            } else {
+                if (_username.length == 0 || _gmail.length == 0 || _address.length == 0 || _phone.length == 0) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'info',
+                        title: 'Nhập thông tin hoặc đăng nhập tài khoản!',
+                        showConfirmButton: false,
+                        //timer: 1000,
+                        width: '100px',
+                        
+                    })
+                }
+                else {
+                 /*   if (confirm("bạn có muốn mua các sản phẩm này")) {*/
+                        $.ajax({
+                            url: '/Home/Buyproduct',
+                            type: 'post',
+                            data: {
+                                id: s,
+                                username: _username,
+                                gmail: _gmail,
+                                address: _address,
+                                phone: _phone,
+                                check: _checked
+                            },
+                            success: function (data) {
+                                if (data.code == 200) {
+                                    window.location = data.url;
+                                    //window.location = response.url;
+                                    //console.log(data.listProduct_id);
+                                } else {
+                                    alert("Loi");
+                                    console.log(data.msg);
+                                }
+                            }
+                        })
+                    //}
+                }
+                
+            }
+            
+        });
+        // Mua sản phẩm
+        //$(document).on('click', "button[name='BuyNow']", function () {
+        //    var _username = $("#username").val();
+        //    var _gmail = $("#gmail").val();
+        //    var _address = $("#address").val();
+        //    var _phone = $("#phone").val();
+        //    var _checked = "no";
+        //   /* alert(username + "-" + gmail + "-" + address + "-" + phone);*/
+
+        //    $('input[name="create_tk"]:checked').each(function () {
+        //        _checked = "yes";
+        //        console.log(_checked);
+        //    });
+        //    if (confirm("bạn có muốn mua các sản phẩm này")) {
+        //        $.ajax({
+        //            url: '/Home/Create_acccout',
+        //            type: 'post',
+        //            data: {
+        //                username  : _username,
+        //                gmail : _gmail,
+        //                address : _address,
+        //                phone : _phone,
+        //                check : _checked
+        //            },
+        //            success: function (data) {
+        //                if (data.code == 200) {
+        //                    window.location = data.url;
+        //                    //window.location = response.url;
+        //                    console.log(data.msg);
+        //                } else {
+        //                    console.log(data.msg);
+        //                }
+        //            }
+        //        })
+        //    }
+        //});
+    </script>
+
+
+
+
+}
+

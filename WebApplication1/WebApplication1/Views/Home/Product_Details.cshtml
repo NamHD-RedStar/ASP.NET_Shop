@@ -1,0 +1,641 @@
+﻿@model WebApplication1.Models.product
+@{
+    ViewBag.Title = "Product_Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //int giam = (int)(item.price * (item.discount / 100));
+}
+<script src="~/Areas/Admin/Data/ckeditor/ckeditor.js"></script>
+<style>
+    .cke_top {
+        display: none;
+    }
+
+    .cke_bottom {
+        display: none;
+    }
+
+    .cke_contents {
+        min-height: 500px;
+    }
+
+    body .translate-tooltip-mtz {
+        display: none;
+    }
+
+    body .translator-hidden {
+        display: none;
+    }
+
+    .header-controls {
+        display: none;
+    }
+
+
+
+
+    .modal-backdrop {
+        position: center;
+        top: unset;
+        left: 0;
+        z-index: 1040;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- product-single start -->
+<section class="product-single theme3 pt-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="position-relative">
+                    <span class="badge badge-danger top-right">New</span>
+                </div>
+                <div class="product-sync-init mb-20">
+                    <div class="single-product">
+                        <div class="product-thumb">
+                            <img src="~/Uploads/Products/@Model.image_main" alt="product-thumb">
+                            <input type="hidden" name="id_product" id="id_product" value="@Model.product_id" />
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                    <div class="single-product">
+                        <div class="product-thumb">
+                            <img src="~/assets/img/single-product/2.jpg" alt="product-thumb">
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                    <div class="single-product">
+                        <div class="product-thumb">
+                            <img src="~/assets/img/single-product/3.jpg" alt="product-thumb">
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                    <div class="single-product">
+                        <div class="product-thumb">
+                            <img src="~/assets/img/single-product/4.jpg" alt="product-thumb">
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                </div>
+
+                <div class="product-sync-nav single-product">
+                    <div class="single-product">
+                        <div class="product-thumb">
+                            <a href="javascript:void(0)">
+                                <img src="~/Uploads/Products/@Model.image_main"
+                                     alt="product-thumb">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                    <div class="single-product">
+                        <div class="product-thumb">
+                            <a href="javascript:void(0)">
+                                <img src="~/assets/img/single-product/2.2x.jpg"
+                                     alt="product-thumb">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                    <div class="single-product">
+                        <div class="product-thumb">
+                            <a href="javascript:void(0)">
+                                <img src="~/assets/img/single-product/3.2x.jpg"
+                                     alt="product-thumb">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                    <div class="single-product">
+                        <div class="product-thumb">
+                            <a href="javascript:void(0)">
+                                <img src="~/assets/img/single-product/4.2x.jpg"
+                                     alt="product-thumb">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 mt-md-0">
+                <div class="single-product-info">
+                    <div class="single-product-head">
+                        <h2 class="title mb-20">@Model.product_name</h2>
+                        <div class="star-content mb-20">
+                            <span class="star-on"><i class="ion-ios-star"></i> </span>
+                            <span class="star-on"><i class="ion-ios-star"></i> </span>
+                            <span class="star-on"><i class="ion-ios-star"></i> </span>
+                            <span class="star-on"><i class="ion-ios-star"></i> </span>
+                            <span class="star-on"><i class="ion-ios-star"></i> </span>
+                            <a href="#" id="write-comment">
+                                <span class="ml-2"><i class="far fa-comment-dots"></i></span>
+                                Read reviews <span>(1)</span>
+                            </a>
+                            <a href="#" data-toggle="modal" data-target="#exampleModalCenter">
+                                <span class="edite">
+                                    <i class="far fa-edit"></i>
+                                </span> Write a review
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-body mb-40">
+                        <div class="d-flex align-items-center mb-30">
+                            <h6 class="product-price mr-20">
+                                <del class="del">@string.Format("{0:#,0}", Model.price) đ</del>
+                                <span class="onsale"> @string.Format("{0:#,0}", (Model.price - (Model.price * (Model.discount * 0.01)))) đ</span>
+                            </h6>
+                            <span class="badge position-static bg-dark rounded-0">-@Model.discount %</span>
+                        </div>
+                        @*<p>Block out the haters with the fresh adidas® Originals Kaval Windbreaker Jacket.</p>
+                        <ul>
+                            <li>Part of the Kaval Collection.</li>
+                            <li>Regular fit is eased, but not sloppy, and perfect for any activity.</li>
+                            <li>Plain-woven jacket specifically constructed for freedom of movement.</li>
+                        </ul>*@
+                    </div>
+                    <div class="product-footer">
+                        <div class="d-flex">
+                            <div class="product-size mr-5">
+                                <h3 class="title">size</h3>
+                                <select>
+                                    <option value="0">S</option>
+                                    <option value="1">M</option>
+                                    <option value="2">L</option>
+                                    <option value="3">XL</option>
+                                </select>
+                            </div>
+                            <div class="check-box ml-5">
+                                <h4 class="title">color</h4>
+                                <div class="d-flex check-box-wrap-list">
+                                    <div class="filter-check-box color-white">
+                                        <input type="checkbox" id="test13">
+                                        <label for="test13"></label>
+                                    </div>
+                                    <div class="filter-check-box color-black">
+                                        <input type="checkbox" id="test14">
+                                        <label for="test14"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-count style d-flex flex-column flex-sm-row mt-30 mb-20">
+                            <div class="count d-flex">
+                                <input type="number" min="1" max="10" step="1" value="1" id="soluong" name="soluong">
+                                <div class="button-group">
+                                    <button class="count-btn increment"><i class="fas fa-chevron-up"></i></button>
+                                    <button class="count-btn decrement"><i class="fas fa-chevron-down"></i></button>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn theme-btn--dark3 btn--xl mt-5 mt-sm-0 rounded-5" name="MUA">
+                                    <span class="mr-2"><i class="ion-android-add"></i></span>
+                                    MUA
+                                </button>
+                            </div>
+                        </div>
+                        <div class="addto-whish-list">
+                            <a href="#"><i class="icon-heart"></i> Add to wishlist</a>
+                            <a href="#"><i class="icon-shuffle"></i> Add to compare</a>
+                        </div>
+                        <div class="pro-social-links mt-10">
+                            <ul class="d-flex align-items-center">
+                                <li class="share">Share</li>
+                                <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                <li><a href="#"><i class="ion-social-google"></i></a></li>
+                                <li><a href="#"><i class="ion-social-pinterest"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- product-single end -->
+<!-- product tab start -->
+<div class="product-tab theme3 bg-white pt-60 pb-80">
+    <div class="container">
+        <div class="product-tab-nav">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <nav class="product-tab-menu single-product">
+                        <ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-profile-tab" data-toggle="pill"
+                                   href="#pills-profile" role="tab" aria-controls="pills-profile"
+                                   aria-selected="false">Thông tin sản phẩm</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact"
+                                   role="tab" aria-controls="pills-contact" aria-selected="false">Bình luận</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- product-tab-nav end -->
+        <div class="row">
+            <div class="col-12">
+                <div class="tab-content" id="pills-tabContent">
+                    <!-- second tab-pane -->
+                    <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
+                         aria-labelledby="pills-profile-tab">
+                        <div class="single-product-desc">
+                            <div class="product-features">
+                                <textarea rows="4" class="form-control" id="content" name="content"
+                                          placeholder="Chi tiết sản phẩm" readonly>@Model.content</textarea>
+                                <script type="text/javascript" lang="javascript">
+                                    CKEDITOR.replace("content");
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- third tab-pane -->
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="single-product-desc">
+                            <div class="grade-content">
+                                <span class="grade">Grade </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <h6 class="sub-title">test</h6>
+                                <p>23/09/2020</p>
+                                <h4 class="title">test</h4>
+                                <p>test</p>
+                            </div>
+                            <hr class="hr">
+                            <div class="grade-content">
+                                <span class="grade">Grade </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <span class="star-on"><i class="ion-ios-star"></i> </span>
+                                <h6 class="sub-title">Hastheme</h6>
+                                <p>23/09/2020</p>
+                                <h4 class="title">demo</h4>
+                                <p>ok !</p>
+                                <a href="#" class="btn theme-btn--dark3 theme-btn--dark3-sm btn--sm rounded-5 mt-15"
+                                   data-toggle="modal" data-target="#exampleModalCenter">Write your review !</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- product tab end -->
+<!-- new arrival section start -->
+<section class="theme3 bg-white pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title text-center mb-30">
+                    <h2 class="title text-dark text-capitalize">SẢN PHẨM KHÁC</h2>
+                    <p class="text mt-10">
+                        Sản phẩm cùng loại
+                    </p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="product-slider-init slick-nav">
+
+                    @if (ViewBag.sanphamtuongtu != null)
+                    {
+                        foreach (var item in ViewBag.sanphamtuongtu)
+                        {
+                            <div class="slider-item">
+
+                                <div class="card product-card">
+                                    <div class="card-body p-0">
+                                        <div class="media flex-column">
+                                            <div class="product-thumbnail position-relative">
+                                                <span class="badge badge-success top-left">-10%</span>
+                                                <span class="badge badge-danger top-right">New</span>
+                                                <a href="~/Home/Product_Details/@item.product_id">
+                                                    <img class="product-image-main" src="~/Uploads/Products/@item.image_main"
+                                                         alt="thumbnail">
+                                                </a>
+                                                <!-- product links -->
+                                                <ul class="product-links d-flex justify-content-center">
+                                                    <li>
+                                                        <a href="wishlist.html">
+                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                  title="add to wishlist" class="icon-heart"> </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#compare">
+                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                  title="Add to compare" class="icon-shuffle"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                  title="Thông tin nhanh" class="icon-magnifier"></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <!-- product links end-->
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="product-desc">
+                                                    <h3 class="title">
+                                                        <a href="shop-grid-4-column.html" class="cut-text-content">
+                                                            @item.product_name
+
+                                                        </a>
+                                                    </h3>
+                                                    <div class="star-rating">
+                                                        <span class="ion-ios-star"></span>
+                                                        <span class="ion-ios-star"></span>
+                                                        <span class="ion-ios-star"></span>
+                                                        <span class="ion-ios-star"></span>
+                                                        <span class="ion-ios-star de-selected"></span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <h6 class="product-price">
+                                                            @*<del class="del">$23.90</del>*@
+                                                            <span class="onsale">@string.Format("{0:#,0}", item.price) đ</span>
+                                                        </h6>
+                                                        <button class="pro-btn" data-toggle="modal"
+                                                                data-target="#h-@item.product_id">
+                                                            <i class="icon-basket"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- second modal -->
+                                <div class="modal fade style3" id="h-@item.product_id" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:black">
+                                                    <span aria-hidden="false">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5 class="title"><i class="fa fa-check"></i> Đã thêm sản phẩm mã @item.product_id</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- second modal -->
+                            </div>
+
+
+                        }
+                    }
+
+
+
+                    <!-- slider-item end -->
+
+                </div>
+            </div>
+            <div style="text-align:center">
+                <hr />
+                <a href="~/Home/Product_View_Transaction">Xem thêm...</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- new arrival section end -->
+<!-- new arrival section start -->
+<section class="theme3 bg-white pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title text-center mb-30">
+                    <h2 class="title text-dark text-capitalize">CÓ THỂ BẠN MUỐN XEM</h2>
+                    <a href="#" class="text mt-10">Sản phẩm khác</a>
+                    @*<p class="text mt-10">Sản phẩm khác</p>*@
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="product-slider-init slick-nav">
+                    @if (ViewBag.sanphamkhacloai != null)
+                    {
+                        foreach (var item in ViewBag.sanphamkhacloai)
+                        {
+                            <div class="slider-item">
+
+                                <div class="card product-card">
+                                    <div class="card-body p-0">
+                                        <div class="media flex-column">
+                                            <div class="product-thumbnail position-relative">
+                                                <span class="badge badge-success top-left">-10%</span>
+                                                <span class="badge badge-danger top-right">New</span>
+                                                <a href="~/Home/Product_Details/@item.product_id">
+                                                    <img class="product-image-main" src="~/Uploads/Products/@item.image_main"
+                                                         alt="thumbnail">
+                                                </a>
+                                                <!-- product links -->
+                                                <ul class="product-links d-flex justify-content-center">
+                                                    <li>
+                                                        <a href="wishlist.html">
+                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                  title="add to wishlist" class="icon-heart"> </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#compare">
+                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                  title="Add to compare" class="icon-shuffle"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                  title="Thông tin nhanh" class="icon-magnifier"></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <!-- product links end-->
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="product-desc">
+                                                    <h3 class="title">
+                                                        <a href="shop-grid-4-column.html" class="cut-text-content">
+                                                            @item.product_name
+
+                                                        </a>
+                                                    </h3>
+                                                    <div class="star-rating">
+                                                        <span class="ion-ios-star"></span>
+                                                        <span class="ion-ios-star"></span>
+                                                        <span class="ion-ios-star"></span>
+                                                        <span class="ion-ios-star"></span>
+                                                        <span class="ion-ios-star de-selected"></span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <h6 class="product-price">
+                                                            @*<del class="del">$23.90</del>*@
+                                                            <span class="onsale">@string.Format("{0:#,0}", item.price) đ</span>
+                                                        </h6>
+                                                        <button class="pro-btn" data-toggle="modal"
+                                                                data-target="#h-@item.product_id">
+                                                            <i class="icon-basket"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- second modal -->
+                                <div class="modal fade style3" id="h-@item.product_id" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:black">
+                                                    <span aria-hidden="false">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5 class="title"><i class="fa fa-check"></i> Đã thêm sản phẩm mã @item.product_id</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- second modal -->
+                            </div>
+
+
+                        }
+                    }
+                </div>
+                <div style="text-align:center">
+                    <hr />
+                    <a href="~/Home/Product_View_Transaction">Xem thêm...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<div class="mb-3 " id="mytable2" style="
+    position: fixed;
+    top: 29%;
+    left: 45%;
+    z-index: 1050;
+    display: none;
+    width: 270px;
+    height: auto;
+    overflow: hidden;
+    outline: 0;">
+    <div class="alert alert-success" role="alert" style="margin-bottom:0;">
+        <div class="alert-message" style="text-align:center">
+            <h4 class="alert-heading">MUA THÀNH CÔNG</h4>
+            <p>
+                Success
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section scripts{
+    <script>
+
+        $(document).on('click', "button[name='gg']", function () {
+            // lấy id sản phẩm
+            var _soluong = $("#soluong").val();
+            var _id_product = $("#id_product").val();
+            console.log("soluong:" + _soluong + "-id:" + _id_product);
+
+
+            if (confirm("bạn có muốn mua các sản phẩm này")) {
+                $.ajax({
+                    url: '/Home/Buy_Product_Details',
+                    type: 'post',
+                    data: {
+                        id: _id_product,
+                        soluong: _soluong
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            // window.location = data.url;
+                            //window.location = response.url;
+                            console.log(data.msg);
+                            //$("#mytable2").show(function () { $("#mytable2").hide(); }).slideUp(5000);
+                            $("#mytable2").slideDown(900).slideUp();
+                        } else {
+                            alert("Loi");
+                            console.log(data.msg);
+                        }
+                    }
+                })
+            }
+        });
+        $(document).on('click', "button[name='MUA']", function () {
+           
+            Swal.fire({
+                title: 'Bạn muốn mua sản phảm này',
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText:'<i class="fas fa-times"></i>',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '<i class="fas fa-check"></i>'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    // lấy id sản phẩm
+                    var _soluong = $("#soluong").val();
+                    var _id_product = $("#id_product").val();
+                    console.log("soluong:" + _soluong + "-id:" + _id_product);
+                    $.ajax({
+                        url: '/Home/Buy_Product_Details',
+                        type: 'post',
+                        data: {
+                            id: _id_product,
+                            soluong: _soluong
+                        },
+                        success: function (data) {
+                            if (data.code == 200) {
+                               // location.reload();
+                                Swal.fire(
+                                    'Thêm thành công!'
+                                )
+                               
+                            } else {
+                                alert("Loi");
+                                console.log(data.msg);
+                            }
+                        }
+                    });
+                   
+                }
+            })
+        });
+
+    </script>
+
+
+
+
+}

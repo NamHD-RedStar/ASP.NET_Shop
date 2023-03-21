@@ -1,0 +1,535 @@
+﻿
+@using WebApplication1.Models;
+@model IEnumerable<WebApplication1.Models.Detail_Order_Temp>
+@{
+    ViewBag.Title = "Detail_Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var a = ViewBag.transaction_temps as transaction_temp;
+    SetDateVietNam setDateVietNam = new SetDateVietNam();
+
+    var date = setDateVietNam.Thu_VN(a._create.ToString("dddd"));
+
+    int shipping = 20000;
+
+    if (a._shipping == 1)
+    {
+        shipping = 50000;
+    }
+    string thongbao = a._create.AddDays(1).ToString("HH:mm dd/MM/yyyy");
+    string dukien1 = setDateVietNam.Thu_VN(a._create.AddDays(6).ToString("dddd"))+ ", "+a._create.AddDays(6).ToString("dd/MM/yyyy");
+    string dukien2 = setDateVietNam.Thu_VN(a._create.AddDays(7).ToString("dddd"))+ ", "+a._create.AddDays(7).ToString("dd/MM/yyyy");
+
+
+    int toltal = a._total_price + shipping;
+}
+
+<style>
+    .jXurFV {
+        flex: 1 1 0%;
+    }
+
+    .OEUxZ {
+        font-size: 13px;
+        color: rgb(36, 36, 36);
+        line-height: 1.5;
+    }
+
+        .OEUxZ .heading {
+            font-size: 19px;
+            font-weight: 300;
+            margin: 20px 0px 0px;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+        }
+
+        .OEUxZ .created-date {
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+        }
+
+    .ukdFc {
+        margin: 10px 0px 20px;
+        display: flex;
+        flex-direction: column;
+        color: rgba(0, 0, 0, 0.65);
+    }
+
+        .ukdFc .title {
+            font-size: 13px;
+            text-transform: uppercase;
+            margin: 0px 0px 15px;
+            color: rgb(36, 36, 36);
+        }
+
+    .Nbknf tr {
+        display: table-row;
+        padding: 10px;
+    }
+
+    .ukdFc .content {
+        display: flex;
+        background-color: rgb(255, 255, 255);
+        padding: 10px;
+        border-radius: 4px;
+        height: 100%;
+    }
+
+        .ukdFc .content .notifications {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ukdFc .content .notifications__item {
+            display: flex;
+        }
+
+            .ukdFc .content .notifications__item .date {
+                min-width: 160px;
+            }
+
+            .ukdFc .content .notifications__item .comment {
+                text-align: left;
+            }
+
+    .cRRvpz {
+        display: flex;
+        margin: 10px 0px 20px;
+    }
+
+        .cRRvpz > div:first-child {
+            margin-left: 0px;
+        }
+
+        .cRRvpz p {
+            margin: 5px 0px 0px;
+        }
+
+    .cRRvpz {
+        display: flex;
+        margin: 10px 0px 20px;
+    }
+
+        .cRRvpz > div {
+            width: 33.3333%;
+            margin: 0px 5px;
+        }
+
+
+
+
+    .gQjSfs .title {
+        font-size: 13px;
+        text-transform: uppercase;
+        margin: 0px 0px 15px;
+        color: rgb(36, 36, 36);
+    }
+
+    .gQjSfs .content {
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(255, 255, 255);
+        padding: 10px;
+        border-radius: 4px;
+        height: 100%;
+    }
+
+    .gQjSfs .title {
+        font-size: 13px;
+        text-transform: uppercase;
+        margin: 0px 0px 15px;
+        color: rgb(36, 36, 36);
+    }
+
+    .gQjSfs .content {
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(255, 255, 255);
+        padding: 10px;
+        border-radius: 4px;
+        height: 100%;
+    }
+
+    .gQjSfs {
+        margin: 10px 0px 20px;
+        display: flex;
+        flex-direction: column;
+        color: rgba(0, 0, 0, 0.65);
+    }
+
+    a {
+        color: rgb(11, 116, 229);
+        text-decoration: none;
+    }
+
+    .Nbknf {
+        width: 100%;
+        color: rgb(66, 66, 66);
+        display: table;
+        font-size: 13px;
+        background: rgb(255, 255, 255);
+        border-radius: 4px;
+        border-collapse: collapse;
+        border-spacing: 0px;
+        line-height: 1.5;
+        word-break: break-word;
+    }
+
+        .Nbknf thead {
+            display: table-header-group;
+        }
+
+        .Nbknf tr {
+            display: table-row;
+            padding: 10px;
+        }
+
+        .Nbknf thead tr th {
+            display: table-cell;
+            padding: 20px 15px;
+            border-top: none;
+            min-width: 100px;
+            position: relative;
+            background: 0px 0px;
+            color: rgb(120, 120, 120);
+            font-size: 15px;
+            font-weight: 400;
+            border-bottom: 1px solid rgb(244, 244, 244);
+            text-align: left;
+        }
+
+        .Nbknf tbody {
+            display: table-row-group;
+        }
+
+            .Nbknf tbody tr td {
+                border: none;
+                position: relative;
+                display: table-cell;
+                padding: 20px 15px;
+                color: rgb(36, 36, 36);
+                vertical-align: top;
+                min-width: 100px;
+            }
+
+                .Nbknf tbody tr td .product-item {
+                    display: flex;
+                }
+
+                    .Nbknf tbody tr td .product-item .product-info .product-name {
+                        font-size: 14px;
+                        color: rgb(36, 36, 36);
+                    }
+
+                    .Nbknf tbody tr td .product-item .product-info .product-seller {
+                        font-size: 11px;
+                    }
+
+                    .Nbknf tbody tr td .product-item .product-info p {
+                        margin: 12px 0px 0px;
+                    }
+
+                    .Nbknf tbody tr td .product-item .product-info .product-sku {
+                        margin: 12px 0px;
+                    }
+
+                    .Nbknf tbody tr td .product-item .product-info .product-review span, .Nbknf tbody tr td .product-item .product-info .product-review a {
+                        display: inline-block;
+                        margin-right: 10px;
+                        background: rgb(255, 255, 255);
+                        border: 1px solid rgb(24, 158, 255);
+                        font-size: 12px;
+                        color: rgb(24, 158, 255);
+                        padding: 5px 15px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                    }
+
+                    .Nbknf tbody tr td .product-item img {
+                        width: 60px;
+                        height: 60px;
+                        margin-right: 15px;
+                    }
+
+        .Nbknf tfoot {
+            display: table-row-group;
+        }
+
+            .Nbknf tfoot tr {
+                border-top: none;
+            }
+
+                .Nbknf tfoot tr td:first-child {
+                    border-top: none;
+                }
+
+                .Nbknf tfoot tr:first-child td {
+                    padding-top: 30px;
+                }
+
+                .Nbknf tfoot tr td .sum {
+                    color: rgb(255, 59, 39);
+                    font-size: 18px;
+                }
+
+                .Nbknf tfoot tr td {
+                    text-align: right;
+                    display: table-cell;
+                    padding: 5px 20px;
+                    max-width: 550px;
+                    min-width: 125px;
+                    color: rgb(36, 36, 36);
+                }
+
+                    .Nbknf tfoot tr td span {
+                        color: rgb(120, 120, 120);
+                        font-size: 14px;
+                    }
+</style>
+<!-- product tab start -->
+
+<section class="check-out-section pt-40 pb-50">
+    <div class="container" style="max-width:1440px">
+        <div class="row" style="justify-content:center">
+            <div class="col-lg-3 col-12 mb-30">
+                <div class="myaccount-tab-menu nav" role="tablist">
+                    <a href="~/Home/ThongtinUser">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Thông tin tài khoản
+                    </a>
+
+                    <a href="#orders" data-toggle="tab">
+                        <i class="fa fa-cart-arrow-down"></i>
+                        Sản phẩm mua sau
+                    </a>
+
+                    <a href="#download" data-toggle="tab">
+                        <i class="fas fa-cloud-download-alt"></i>
+                        Thông báo của tôi
+                    </a>
+
+                    <a href="#payment-method" data-toggle="tab">
+                        <i class="fa fa-credit-card"></i>
+                        Thông tin thanh toán
+                    </a>
+
+                    <a href="#address-edit" data-toggle="tab">
+                        <i class="fa fa-map-marker"></i>
+                        Sổ địa chỉ
+                    </a>
+
+                    <a href="#account-info" data-toggle="tab" class="active">
+                        <i class="fa fa-user"></i>
+                        Quản lý đơn hàng
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-8 mb-30">
+                <div class="tab-content" id="myaccountContent">
+                    <div class="tab-pane fade active show" id="account-info" role="tabpanel">
+                        <div id="accordion">
+                            <div class="row">
+                                <div class="col-xl-12" style="background: rgb(245 245 250)">
+                                    <div class="Account__StyledAccountLayoutInner-sc-1d5h8iz-1 jXurFV">
+                                        <div class="styles__StyledAccountOrderDetail-sc-ri73gr-2 OEUxZ">
+                                            <div class="heading">
+                                                <span>Chi tiết đơn hàng #@a._transactions_id</span>
+                                                <span class="split">&nbsp;<i class="fas fa-arrow-right"></i>&nbsp;</span>
+
+                                                @if (a._status.ToString() == "0")
+                                                {
+                                                    <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                        <span class="main-status text-info" style="color:red">Chờ Xác Nhận</span>
+                                                    </div>
+                                                }
+                                                else if (a._status.ToString() == "1")
+                                                {
+                                                    <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                        <span class="main-status text-primary" style="color:red">Đang Vận Chuyển</span>
+                                                    </div>
+                                                }
+                                                else if (a._status.ToString() == "-1")
+                                                {
+                                                    <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                        <span class="main-status text-secondary" style="color:red">Đã Hủy</span>
+                                                    </div>
+                                                }
+                                                else if (a._status.ToString() == "2")
+                                                {
+                                                    <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                        <span class="main-status text-success" style="color:red">Giao Thành Công</span>
+                                                    </div>
+                                                }
+                                                else if (a._status.ToString() == "-2")
+                                                {
+                                                    <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                        <span class="main-status text-danger" style="color:red">Giao Thất Bại</span>
+                                                    </div>
+                                                }
+
+
+                                             
+                                            </div>
+                                            <div class="created-date">Ngày đặt hàng: @date , @a._create.ToString("HH:mm dd/MM/yyyy")</div>
+                                            <div class="styles__StyledSection-sc-ri73gr-1 ukdFc">
+                                                <div class="title">Thông báo</div>
+                                                <div class="content">
+                                                    <div class="notifications">
+                                                        <div class="notifications__item">
+                                                            <div class="date">@thongbao</div>
+                                                            <div class="comment"> Dự kiến giao hàng vào @dukien1 <i class="fas fa-arrow-right"></i> @dukien2</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><div class="styles__StyledGroupSection-sc-ri73gr-0 cRRvpz" style="margin:10px 0 20px">
+                                                <div class="styles__StyledSection-sc-ri73gr-1 gQjSfs">
+                                                    <div class="title">Địa chỉ người nhận</div>
+                                                    <div class="content">
+                                                        <p class="name">@a._username</p>
+                                                        <p class="address">
+                                                            <span>Địa chỉ:&nbsp; </span>@a._address
+                                                        </p>
+                                                        <p class="phone">
+                                                            <span>Điện thoại:&nbsp; </span>@a._phonenumber
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="styles__StyledSection-sc-ri73gr-1 gQjSfs">
+                                                    <div class="title">Hình thức giao hàng</div>
+                                                    <div class="content">
+
+                                                        @if (a._shipping.ToString() == "1")
+                                                        {
+                                                            <p>
+                                                                <i class="fas fa-shipping-fast"></i>
+                                                                <span> Giao Siêu Nhanh</span>
+                                                            </p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>
+                                                                <i class="fas fa-truck"></i>
+                                                                <span> Giao Tiết Kiệm</span>
+                                                            </p>
+                                                        }
+
+
+
+                                                        <p>Giao vào Thứ bảy, 06/06</p>
+                                                        <p>Được giao bởi ShopJP Go (giao từ Hải Dương)</p>
+                                                        <p>Phí vận chuyển:&nbsp;@shipping.ToString("n0")</p>
+                                                    </div>
+                                                </div>
+                                                <div class="styles__StyledSection-sc-ri73gr-1 gQjSfs">
+                                                    <div class="title">Hình thức thanh toán</div>
+                                                    <div class="content">
+                                                        <p class="">@a._payment</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <table class="styles__StyledProductList-sc-ri73gr-3 Nbknf">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sản phẩm</th>
+                                                        <th>Giá</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Giảm giá</th>
+                                                        <th>Tạm tính</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        @*<td>
+                                                                <div class="product-item">
+                                                                    <img src="https://salt.tikicdn.com/cache/200x200/media/catalog/product/s/d/sdcz48 032g u46.u2470.d20160916.t110348.259439.jpg" alt="USB SanDisk 3.0 Ultra CZ48 32GB - Hàng Chính Hãng">
+                                                                    <div class="product-info">
+                                                                        <a class="product-name" href="/product-p447634.html?spid=687100">USB SanDisk 3.0 Ultra CZ48 32GB - Hàng Chính Hãng</a>
+                                                                        <p class="product-seller">
+                                                                            Cung cấp bởi <a href="/cua-hang/tin-hoc-vien-thong">Tin Học - Viễn Thông</a>
+                                                                        </p>
+                                                                        <p class="product-sku">Sku: 6106081130538</p>
+                                                                        <div class="product-review">
+                                                                            <span>Chat với nhà bán</span>
+                                                                            <span>Viết nhận xét</span>
+                                                                            <a href="/product-p447634.html?spid=687100" target="_blank">Mua lại</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="price">125.000 ₫</td>
+                                                            <td class="quantity">1</td>
+                                                            <td class="discount-amount">0 ₫</td>
+                                                            <td class="raw-total">125.000 ₫</td>*@
+                                                    </tr>
+                                                    @{
+                                                        foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="product-item">
+                                                                        <img src="~/Uploads/Products/@item._product_image" alt="USB Kingston DT100G3 16GB USB 3.0 - Hàng Chính Hãng">
+                                                                        <div class="product-info">
+                                                                            <a class="product-name" href="">@item._product_name</a>
+                                                                            <p class="product-seller">Cung cấp bởi <a href="">Shop - JP</a></p>
+                                                                            <p class="product-sku"></p>
+                                                                            <div class="product-review">
+                                                                                <span>Chat với nhà bán</span>
+                                                                                <span>Viết nhận xét</span>
+                                                                                <a href="~/Home/Product_Details/@item._product_id" target="_blank">Mua lại</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="price">@item._product_price.ToString("n0") ₫</td>
+                                                                <td class="quantity">@item._quantity</td>
+                                                                <td class="discount-amount">0 ₫</td>
+                                                                <td class="raw-total">@item._sum.ToString("n0") ₫</td>
+                                                            </tr>
+                                                        }
+
+                                                    }
+
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <span>Tạm tính</span>
+                                                        </td>
+                                                        <td>@a._total_price.ToString("n0") ₫</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <span>Phí vận chuyển</span>
+                                                        </td>
+                                                        <td>@shipping.ToString("n0") ₫</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <span>Tổng cộng</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="sum">@toltal.ToString("n0") ₫</span>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Tab Content End -->
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

@@ -1,0 +1,83 @@
+﻿@model WebApplication1.Models.user
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>user</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.gmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.avatar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.avatar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.position)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.position)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.created)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.user_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

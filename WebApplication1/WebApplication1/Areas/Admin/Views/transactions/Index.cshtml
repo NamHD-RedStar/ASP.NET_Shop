@@ -1,0 +1,99 @@
+﻿@model IEnumerable<WebApplication1.Models.transaction>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main class="cc">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                  
+
+                    <div class="card-header pb-0">
+                        <h5 class="card-title mb-0">Clients</h5>
+                        <div class="card-actions">
+                            <div class="btn-group mb-3" role="group" aria-label="Default button group">
+                                @*<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Tooltip on top">
+                                    Tất Cả
+                                </button>*@
+                                <a href="~/Admin/transactions/Index"><input type="button" name="" value="Tất Cả" class="btn btn-dark" /></a>
+                                <a href="~/Admin/transactions/Index/000"><input type="button" name="" value="Chờ Xác Nhận" class="btn btn-primary" /></a>
+                                <a href="~/Admin/transactions/Index/001"><input type="button" name="" value="Chờ Vận Chuyển" class="btn btn-secondary" /></a>
+                                <a href="~/Admin/transactions/Index/002"><input type="button" name="" value="Giao Thành Công" class="btn btn-success" /></a>
+                                <a href="~/Admin/transactions/Index/020"><input type="button" name="" value="Giao Thất Bại" class="btn btn-danger" /></a>
+                                <a href="~/Admin/transactions/Index/010"><input type="button" name="" value="Đã Hủy" class="btn btn-warning" /></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên Người Nhận</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Địa Chỉ</th>
+                                    <th>SĐT</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            <a class="" href="#">
+                                                <img src="~/Areas/Admin/Data/img/icons/brand-1.svg" class=" my-n1 img-product" alt="Image-Product">
+                                            </a>
+                                        </td>
+                                        <td style="max-width:300px;min-width:200px"><p style="">@item.username</p></td>
+                                        <td>@string.Format("{0:#,0}", item.total_price)đ</td>
+                                        <td>@item.address</td>
+                                        <td>@item.phonenumber</td>
+                                        <td>
+                                            @if (item.status.ToString() == "0")
+                                            {
+                                                <span class="badge bg-info">Chờ Xác Nhận</span>
+                                            }
+                                            else if (item.status.ToString() == "1")
+                                            {
+                                                <span class="badge bg-primary">Đang Vận Chuyển</span>
+                                            }
+                                            else if (item.status.ToString() == "-1")
+                                            {
+                                                <span class="badge bg-secondary">Đã Hủy</span>
+                                            }
+                                            else if (item.status.ToString() == "2")
+                                            {
+                                                <span class="badge bg-success">Giao Thành Công</span>
+                                            }
+                                            else if (item.status.ToString() == "-2")
+                                            {
+                                                <span class="badge bg-danger">Giao Thất Bại</span>
+                                            }
+
+                                        </td>
+                                            <td>
+
+                                                @Html.ActionLink("Chi tiết", "Details", new { id = item.transactions_id }, new { @class = "btn btn-info" })
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.transactions_id }, new { @class = "btn btn-danger" })
+                                            </td>
+                                        </tr>
+
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,215 @@
+﻿@using WebApplication1.Models;
+@model IEnumerable<WebApplication1.Models.Detail_Order_Temp>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+
+    var a = ViewBag.transaction_temps as transaction_temp;
+    SetDateVietNam setDateVietNam = new SetDateVietNam();
+
+    var date = setDateVietNam.Thu_VN(a._create.ToString("dddd"));
+
+    int shipping = 20000;
+
+    if (a._shipping == 1)
+    {
+        shipping = 50000;
+    }
+    string thongbao = a._create.AddDays(1).ToString("HH:mm dd/MM/yyyy");
+    string dukien1 = setDateVietNam.Thu_VN(a._create.AddDays(6).ToString("dddd")) + ", " + a._create.AddDays(6).ToString("dd/MM/yyyy");
+    string dukien2 = setDateVietNam.Thu_VN(a._create.AddDays(7).ToString("dddd")) + ", " + a._create.AddDays(7).ToString("dd/MM/yyyy");
+
+
+    int toltal = a._total_price + shipping;
+}
+
+<main class="cc">
+
+    <div class="row">
+        <div class="col-12 col-xl-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <table class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Đơn Giá</th>
+                                <th>SL</th>
+                                <th>Tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>
+                                        <a class="" href="~/Admin/products/Details/@item._product_id">
+                                            <img src="~/Uploads/Products/@item._product_image" class=" my-n1 img-product" alt="Image-Product">
+                                        </a>
+                                    </td>
+                                    <td style="max-width:300px;min-width:200px"><p style="">@item._product_name</p></td>
+                                    <td>@item._product_price.ToString("n0")</td>
+                                    <td>@item._quantity</td>
+                                    <td>@item._sum.ToString("n0") </td>
+                                </tr>
+
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Thông Tin Người Nhận</h5>
+                </div>
+                <div class="card-body">
+                    @*<div class="row g-0">
+                            <div class="col-sm-3 col-xl-12 col-xxl-3 text-center">
+                                <img src="~/Areas/Admin/Data/img/avatars/null_profile.png" width="64" height="64" class="rounded-circle mt-2" alt="Angelica Ramos">
+                            </div>
+                            <div class="col-sm-9 col-xl-12 col-xxl-9">
+                                <strong>About me</strong>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                    magna aliqua.
+                                </p>
+                            </div>
+                        </div>*@
+
+                    <table class="table table-sm mt-2 mb-4">
+                        <tbody>
+                            <tr>
+                                <th>Ngày Đặt</th>
+                                <td><span class="badge bg-success"> @date </span>, @a._create.ToString("HH:mm dd/MM/yyyy")</td>
+                            </tr>
+                            <tr>
+                                <th>Tên</th>
+                                <td>@a._username</td>
+                            </tr>
+                            <tr>
+                                <th>Địa Chỉ</th>
+                                <td>@a._address</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>@a._gmail</td>
+                            </tr>
+                            <tr>
+                                <th>SĐT</th>
+                                <td>@a._phonenumber</td>
+                            </tr>
+                            <tr>
+                                <th>Tổng Thanh Toán</th>
+                                <td><p class="text-danger">@toltal.ToString("n0") ₫</p></td>
+                            </tr>
+
+                            <tr>
+                                <th>Hình Thức Thanh Toán</th>
+                                <td><span class="badge bg-success">@a._payment</span></td>
+                            </tr>
+                            <tr>
+                                <th>Hình Thức Giao Hàng</th>
+                                <td>
+                                    @if (a._shipping.ToString() == "1")
+                                    {
+                                        <i class="fas fa-shipping-fast"></i>
+                                        <span> Giao Siêu Nhanh</span>
+                                    }
+                                    else
+                                    {
+
+                                        <i class="fas fa-truck"></i>
+                                        <span> Giao Tiết Kiệm</span>
+                                    }
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Yêu Cầu Khi Giao</th>
+                                <td>@a._message</td>
+                            </tr>
+
+                            <tr>
+
+                                <th>Trạng Thái</th>
+                                @if (@a._status.ToString() == "0")
+                                {
+                                    <td> <span class="badge bg-info">Chưa chốt</span></td>
+                                }
+                                else if (@a._status.ToString() == "1")
+                                {
+                                    <td><span class="badge bg-primary">Đang giao</span></td>
+                                }
+                                else if (@a._status.ToString() == "-1")
+                                {
+                                    <td><span class="badge bg-secondary">Đã Hủy</span></td>
+                                }
+                                else if (@a._status.ToString() == "2")
+                                {
+                                    <td><span class="badge bg-success">Giao Thành Công</span></td>
+                                }
+                                else if (@a._status.ToString() == "-2")
+                                {
+                                    <td><span class="badge bg-danger">Giao Thất Bại</span></td>
+                                }
+
+                            </tr>
+                            <tr>
+                                <th>Trạng Thái</th>
+                                <td><span class="badge bg-success">Active</span></td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                    <strong>Quy Trình Xử Lý (Giao)</strong>
+
+                    <ul class="timeline mt-2 mb-0">
+                        <li class="timeline-item">
+                            <strong>Tiếp Nhận - Xác Nhận Đơn Hàng</strong>
+                            <span class="float-end text-muted text-sm">1 Ngày</span>
+                            <p>Liên hệ và  xác nhận đơn hàng với khách hàng.</p>
+                        </li>
+                        <li class="timeline-item">
+                            <strong>Nhập Hàng Về Kho - Đóng Gói</strong>
+                            <span class="float-end text-muted text-sm">1 Ngày</span>
+                            <p>Tiếp nhận đơn hàng và đóng gói sản phẩm.</p>
+                        </li>
+                        <li class="timeline-item">
+                            <strong>Vận Chuyển</strong>
+                            <span class="float-end text-muted text-sm">1 Ngày</span>
+                            <p>bàn giao đơn hàng cho đơn vị vận chuyển.</p>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="display:flex;justify-content:center">
+                @{
+                    if (@a._status.ToString() == "0")
+                    {
+                        @Html.ActionLink("Xác nhận đơn hàng", "Order_confirmation", new { id = a._transactions_id, check = "200" }, new { @class = "btn btn-lg btn-primary" })
+                    }
+
+                }
+            </div>
+
+        </div>
+    </div>
+</main>
+

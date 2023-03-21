@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewBag.Title = "ChatUser";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="mb-3">
+    <h1 class="h3 d-inline align-middle">Tin nhắn người dùng</h1><a class="badge bg-primary ms-2" href="https://adminkit.io/pricing/"
+                                                         target="_blank">Pro Component <i class="fas fa-fw fa-external-link-alt"></i></a>
+</div>
+
+<div class="card">
+    <div class="row g-0">
+        <div class="col-12 col-lg-5 col-xl-3 border-end">
+
+            <div class="px-4 d-none d-md-block">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <input type="text" class="form-control my-3" placeholder="Search...">
+                        <input type="text" class="form-control my-3" id="_phone_user" name="_phone_user" placeholder="Phone..." value="1221212122">
+
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" class="list-group-item list-group-item-action border-0">
+                <div class="badge bg-success float-end">5</div>
+                <div class="d-flex align-items-start">
+                    <img src="~/Areas/Admin/Data/img/avatars/avatar-5.jpg" class="rounded-circle me-1" alt="Vanessa Tucker" width="40" height="40">
+                    <div class="flex-grow-1 ms-3">
+                        Vanessa Tucker
+                        <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action border-0">
+                <div class="badge bg-success float-end">2</div>
+                <div class="d-flex align-items-start">
+                    <img src="~/Areas/Admin/Data/img/avatars/avatar-2.jpg" class="rounded-circle me-1" alt="William Harris" width="40" height="40">
+                    <div class="flex-grow-1 ms-3">
+                        William Harris
+                        <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+                    </div>
+                </div>
+            </a>
+        
+
+            <hr class="d-block d-lg-none mt-1 mb-0" />
+        </div>
+        <div class="col-12 col-lg-7 col-xl-9">
+            <div class="py-2 px-4 border-bottom d-none d-lg-block">
+                <div class="d-flex align-items-center py-1">
+                    <div class="position-relative">
+                        <img src="~/Areas/Admin/Data/img/avatars/avatar-3.jpg" class="rounded-circle me-1" alt="Sharon Lessman" width="40" height="40">
+                    </div>
+                    <div class="flex-grow-1 ps-3">
+                        <strong>Sharon Lessman</strong>
+                        <div class="text-muted small"><em>Typing...</em></div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-lg me-1 px-3"><i class="feather-lg" data-feather="phone"></i></button>
+                        <button class="btn btn-info btn-lg me-1 px-3 d-none d-md-inline-block">
+                            <i class="feather-lg"
+                               data-feather="video"></i>
+                        </button>
+                        <button class="btn btn-light border btn-lg px-3"><i class="feather-lg" data-feather="more-horizontal"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="position-relative">
+                <div class="chat-messages p-4" id="messages">
+
+                  
+                </div>
+            </div>
+
+            <div class="flex-grow-0 py-3 px-4 border-top">
+                <div class="input-group">
+                    <input type="text" id="chatcontent" name="chatcontent" class="form-control" placeholder="Type your message">
+                    <button class="btn btn-primary" id="SendOk" name="SendOk">Send</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            loadData();
+        })
+        function loadData() {
+          //  $('#messages').empty();
+
+            $.ajax({
+                url: "/admins/DownData",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+
+                success: function (data) {
+                    $('#messages').empty();
+                    $.each(data._dulieu, function (key, item) {
+                        let tr = "";
+                        if (item.Chat_check == "1") {
+                            tr = '<div class="chat-message-right pb-4">';
+                            tr += ' <div>';
+                            tr += ' <img src="/Areas/Admin/Data/img/avatars/avatar.jpg" class="rounded-circle me-1" alt="Chris Wood" width="40" height="40">';
+                            tr += '   <div class="text-muted small text-nowrap mt-2">2:33 am</div>';
+                            tr += '  </div>';
+                            tr += '<div class="flex-shrink-1 bg-light rounded py-2 px-3 me-3">';
+                            tr += ' <div class="font-weight-bold mb-1">You</div>';
+                            tr += item.Chat_content;
+                            tr += ' </div>';
+                            tr += ' </div>';
+                          
+
+                        } else {
+                            tr = '<div class="chat-message-left pb-4">';
+                            tr += ' <div>';
+                            tr += ' <img src="/Areas/Admin/Data/img/avatars/avatar.jpg" class="rounded-circle me-1" alt="Chris Wood" width="40" height="40">';
+                            tr += '   <div class="text-muted small text-nowrap mt-2">2:33 am</div>';
+                            tr += '  </div>';
+                            tr += '<div class="flex-shrink-1 bg-light rounded py-2 px-3 me-3">';
+                            tr += ' <div class="font-weight-bold mb-1">You</div>';
+                            tr += item.Chat_content;
+                            tr += ' </div>';
+                            tr += ' </div>';
+                        }
+                        $('#messages').append(tr);
+                    });
+                }
+            });
+        }
+
+
+        $(document).on('click', "button[name='SendOk']", function () {
+            var _phone_user = $("#_phone_user").val();
+            var _chatcontent = $("#chatcontent").val();
+            console.log(_phone_user);
+            console.log(_chatcontent);
+            $.ajax({
+                url: '/admins/UpData',
+                type: 'post',
+                data: {
+
+                    phone_user: _phone_user,
+                    chatcontent: _chatcontent
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        console.log(data.msg);
+                        $("#chatcontent").val("");
+                        loadData();
+
+                    } else {
+                        console.log(data.msg);
+                    }
+                }
+            });
+
+
+
+        });
+        $(document).on('click', "button[name='Hien_chat']", function () {
+            $("#layput_chat_user").slideDown(2000);
+        });
+        $(document).on('click', "button[name='btn_circle']", function () {
+            $("#layput_chat_user").slideUp(2000);
+        });
+    </script>
+
+
+
+
+}

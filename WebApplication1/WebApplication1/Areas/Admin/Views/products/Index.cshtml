@@ -1,0 +1,225 @@
+﻿@*@model IEnumerable<WebApplication1.Models.product>*@
+@model PagedList.IPagedList<WebApplication1.Models.product>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="~/Areas/Admin/Data/ckeditor/ckeditor.js"></script>
+<style>
+  
+</style>
+<main class="cc">
+    <div class="container-fluid p-0">
+
+       
+        <div class="row">
+
+            <div class="col-md-12">
+                <div style="display:flex;justify-content:space-between">
+                    <div>
+                        @*@if (Request.UrlReferrer != null)
+                        {
+                            <button class="btn btn-outline-info" onclick="history.go(-1); return false;">
+                                <i class="fas fa-backward"></i>
+                            </button>
+                            //  <a class="bottomNav" onclick="history.go(-1); return false;" href="#">Back</a><br />
+                        }*@
+                        <button class="btn btn-outline-primary" id="hien">Thêm mới</button>
+
+
+                        <input type="hidden" name="khachhang" id="khachhang" value="sanpham" />
+
+
+
+
+                    </div>
+                    <div >
+                        <h1 class="h3 d-inline align-middle">DS Khách Hàng</h1>
+                    </div>
+                    <div>
+                        <nav aria-label="Page navigation example">
+
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
+                       {
+                           UlElementClasses = new[] { "pagination justify-content-end" },
+                           LiElementClasses = new[] { "page-item", "page-link" },
+                           LinkToPreviousPageFormat = "Trang trước",
+                           LinkToNextPageFormat = "Trang tiếp",
+                       })
+                        </nav>
+                        @*Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount*@
+                    </div>
+                </div>
+               
+              
+          
+
+
+
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 col-xl-10">
+                <div class="tab-content">
+                    <div id="hiddendiv">
+
+                        <div class="card">
+                            <div class="card-body">
+                                @using (Html.BeginForm("Create", "products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <form>
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Danh mục</label>
+                                                    @Html.DropDownList("catalog_id", null, htmlAttributes: new { @id = "catalog_id", @class = "form-control" })
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tên sản phẩm</label>
+                                                    <input type="text" class="form-control" id="product_name" name="product_name" required>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-md-4">
+                                                        <label class="form-label">Giá bán</label>
+                                                        <input type="number" class="form-control" id="price" name="price" required>
+                                                    </div>
+                                                    <div class="mb-3 col-md-4">
+                                                        <label class="form-label">Số lượng</label>
+                                                        <input type="number" class="form-control" id="quantity" name="quantity" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="content">Thông tin chi tiết</label>
+
+                                                    <textarea rows="4" class="form-control" id="content" name="content"
+                                                              placeholder="Chi tiết sản phẩm" required></textarea>
+                                                    <script type="text/javascript" lang="javascript">
+                                                        CKEDITOR.replace("content");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="text-center">
+                                                    @*<img alt="" src="img/avatars/avatar.jpg" class="rounded-circle img-responsive mt-2"
+                                                             width="128" height="128" />
+                                                        <div class="mt-2">
+                                                            <span class="btn btn-primary"><i class="fas fa-upload"></i> Upload</span>
+                                                        </div>*@
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Image</label>
+                                                        <input class="form-control form-control-lg" type="file" name="img" id="img" onchange="ImagesFileAsURL()" required />
+                                                        <br />
+                                                        <div class="style_displayImg" id="displayImg"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </form>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                @*<div class="card-header pb-0">
+                        <div class="card-actions float-end">
+                            <div class="dropdown show">
+                                <a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+                                    <i class="align-middle" data-feather="more-horizontal"></i>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="card-title mb-0">Clients</h5>
+                    </div>*@
+                <div class="card-body">
+                    <table class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Đã bán</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>
+                                        <a class="" href="~/Admin/products/Details/@item.product_id">
+                                            <img src="~/Uploads/Products/@item.image_main" class=" my-n1 img-product" alt="Image-Product">
+                                        </a>
+                                    </td>
+                                    <td style="max-width:300px;min-width:200px"><p style="">@item.product_name</p></td>
+                                    <td>@string.Format("{0:#,0}", item.price)đ</td>
+                                    <td>@item.quantity</td>
+                                    <td>@item.quantity_sold</td>
+                                    <td>@item.status</td>
+                                    <td>
+
+                                        @Html.ActionLink("Update", "Edit", new { id = item.product_id }, new { @class = "btn btn-info" })
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.product_id }, new { @class = "btn btn-danger" })
+                                    </td>
+                                </tr>
+
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br />
+
+</main>
+
+<script type="text/javascript">
+
+    function ImagesFileAsURL() {
+        var fileSelected = document.getElementById('img').files;
+        if (fileSelected.length > 0) {
+            var fileToLoad = fileSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (fileLoaderEvent) {
+                var srcData = fileLoaderEvent.target.result;
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+                document.getElementById('displayImg').innerHTML = newImage.outerHTML;
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+
+    //
+
+    // nếu chọn đơn hàng đã giao thì hẩn đang giao
+    document.getElementById("hien").onclick = function () {
+        document.getElementById("hiddendiv").style.display = 'block';// hiện
+    };
+</script>

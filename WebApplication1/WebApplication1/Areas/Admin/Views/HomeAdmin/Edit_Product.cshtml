@@ -1,0 +1,134 @@
+﻿@model WebApplication1.Models.product
+@{
+    ViewBag.Title = "Edit_Product";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<script src="~/Areas/Admin/Data/ckeditor/ckeditor.js"></script>
+<main class="cc">
+    <div class="container-fluid p-0">
+
+        <div class="mb-3">
+            <h1 class="h3 d-inline align-middle">Danh sách khách hàng</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-9 col-xl-10">
+                @if (Request.UrlReferrer != null)
+                {
+                    <button class="btn btn-outline-info" onclick="history.go(-1); return false;" id="hien">
+                        <i class="fas fa-backward"></i>
+                    </button>
+                    //  <a class="bottomNav" onclick="history.go(-1); return false;" href="#">Back</a><br />
+                }
+
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12 col-xl-12">
+                <div class="tab-content">
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            @using (Html.BeginForm("EditPost", "products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <form>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="row">
+                                        <div class="col-md-8">
+
+                                            <div class="mb-3">
+                                                @Html.HiddenFor(m => m.product_id, new { Value = @Model.product_id })
+                                                <label class="form-label">Danh mục</label>
+                                                @Html.DropDownList("catalog_id", null, htmlAttributes: new { @id = "catalog_id", @class = "form-control" })
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Tên sản phẩm</label>
+                                                <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Tên sản phẩm" value="@Model.product_name">
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-md-4">
+                                                    <label class="form-label">Giá bán</label>
+                                                    <input type="number" class="form-control" id="price" name="price" value="@Model.price">
+                                                </div>
+                                                <div class="mb-3 col-md-4">
+                                                    <label class="form-label">Số lượng</label>
+                                                    <input type="number" class="form-control" id="quantity" name="quantity" value="@Model.quantity">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Thêm mã giảm giá</label>
+                                                <input type="number" class="form-control" id="discount" name="discount" placeholder="Mã giảm giá" value="@Model.discount">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="content">Thông tin chi tiết</label>
+
+                                                <textarea rows="4" class="form-control" id="content" name="content"
+                                                          placeholder="Chi tiết sản phẩm">@Model.content</textarea>
+                                                <script type="text/javascript" lang="javascript">
+                                                    CKEDITOR.replace("content");
+                                                </script>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="text-center">
+                                                @*<img alt="" src="img/avatars/avatar.jpg" class="rounded-circle img-responsive mt-2"
+                                                         width="128" height="128" />
+                                                    <div class="mt-2">
+                                                        <span class="btn btn-primary"><i class="fas fa-upload"></i> Upload</span>
+                                                    </div>*@
+                                                <div class="mb-3">
+                                                    <label class="form-label">Ảnh sản phẩm</label>
+                                                    <input class="form-control form-control-lg" type="file" name="img" id="img" onchange="ImagesFileAsURL()" />
+                                                    <br />
+                                                    <div class="style_displayImg" id="displayImg">
+                                                        <img src="~/Uploads/Products/@Model.image_main" alt="Alternate Text" />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                </form>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script type="text/javascript">
+
+    function ImagesFileAsURL() {
+        var fileSelected = document.getElementById('img').files;
+        if (fileSelected.length > 0) {
+            var fileToLoad = fileSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (fileLoaderEvent) {
+                var srcData = fileLoaderEvent.target.result;
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+                document.getElementById('displayImg').innerHTML = newImage.outerHTML;
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+
+    //
+
+    //// nếu chọn đơn hàng đã giao thì hẩn đang giao
+    //document.getElementById("hien").onclick = function () {
+    //    document.getElementById("hiddendiv").style.display = 'block';// hiện
+    //};
+</script>
+
+

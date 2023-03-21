@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutViewTest.cshtml";
+}
+
+<div id="folio">
+
+
+</div>
+<ul id="content">
+    <li>content</li>
+    <li>content</li>
+    <li>content</li>
+</ul>
+
+
+<button type="button" name="OK">Ok</button>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            loadData();
+        });
+        function loadData() {
+            $.ajax({
+                url: "/ChatUser/DownData",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: {
+                    id: "ok"
+                },
+                success: function (data) {
+                    $('#folio').html("<ul/>");
+                    $.each(data._dulieu, function (key, item) {
+                        $('#folio ul').append('<li>' + item.Chat_content +'</li>');
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }  
+
+        $(document).on('click', "button[name='OK']", function () {
+
+            $.ajax({
+                url: '/ChatUser/DownData',
+                type: 'post',
+                data: {
+                    id: "Xinchao"
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+
+                        console.log(data._dulieu);
+                        console.log(data._response);
+
+                    } else {
+                        alert("Loi");
+                        console.log(data.msg);
+                    }
+                }
+            });
+
+
+
+        });
+                // Mua sản phẩm
+                //$(document).on('click', "button[name='BuyNow']", function () {
+                //    var _username = $("#username").val();
+                //    var _gmail = $("#gmail").val();
+                //    var _address = $("#address").val();
+                //    var _phone = $("#phone").val();
+                //    var _checked = "no";
+                //   /* alert(username + "-" + gmail + "-" + address + "-" + phone);*/
+
+                //    $('input[name="create_tk"]:checked').each(function () {
+                //        _checked = "yes";
+                //        console.log(_checked);
+                //    });
+                //    if (confirm("bạn có muốn mua các sản phẩm này")) {
+                //        $.ajax({
+                //            url: '/Home/Create_acccout',
+                //            type: 'post',
+                //            data: {
+                //                username  : _username,
+                //                gmail : _gmail,
+                //                address : _address,
+                //                phone : _phone,
+                //                check : _checked
+                //            },
+                //            success: function (data) {
+                //                if (data.code == 200) {
+                //                    window.location = data.url;
+                //                    //window.location = response.url;
+                //                    console.log(data.msg);
+                //                } else {
+                //                    console.log(data.msg);
+                //                }
+                //            }
+                //        })
+                //    }
+                //});
+    </script>
+
+
+
+
+}

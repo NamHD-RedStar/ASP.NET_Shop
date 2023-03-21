@@ -1,0 +1,342 @@
+﻿@model PagedList.IPagedList<WebApplication1.Models.product>
+@using WebApplication1.Models;
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    int cart_Count = 0;
+    int cart_toltal = 0;
+    int shipping = 22000;
+
+
+    JP_ShopThoitrangEntities db = new JP_ShopThoitrangEntities();
+    List<catalog> danhmuc = db.catalogs.ToList();
+
+    List<Carts> cart = Session["cart"] as List<Carts>;
+    if (cart != null)
+    {
+        cart_toltal = cart.Select(s => s._sum).Sum();
+        if (cart_toltal >= 200000)
+        {
+            shipping = 0;
+        }
+        cart_Count = cart.Count;
+    }
+    int sum_toltal = cart_toltal + shipping;
+
+    var check_txt = Session["check"];
+    var id_search = Session["id_search"];
+
+
+}
+<style>
+    .cut-text {
+        position: relative;
+        font-weight: 400;
+        line-height: 21px;
+        height: 38px;
+        padding: 0 10px;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+</style>
+<div class="product-tab bg-white pt-80 pb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-30">
+                <div class="grid-nav-wraper bg-lighten2 mb-30">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6 mb-3 mb-md-0">
+                            <nav class="shop-grid-nav">
+                                <ul class="nav nav-pills align-items-center" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill"
+                                           href="#pills-home" role="tab" aria-controls="pills-home"
+                                           aria-selected="true">
+                                            <i class="fa fa-th"></i>
+
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mr-0">
+                                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill"
+                                           href="#pills-profile" role="tab" aria-controls="pills-profile"
+                                           aria-selected="false"><i class="fa fa-list"></i></a>
+                                    </li>
+                                    <li> <span class="total-products text-capitalize" style="color:red">@Model.Count() </span>sản phẩm theo yêu cầu</li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-6 position-relative">
+                            <div class="shop-grid-button d-flex align-items-center">
+                                <span class="sort-by">Sort by:</span>
+                                <button class="btn-dropdown rounded d-flex justify-content-between" type="button"
+                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    Relevance <span class="ion-android-arrow-dropdown"></span>
+                                </button>
+                                <div class="dropdown-menu shop-grid-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Relevance</a>
+                                    <a class="dropdown-item" href="#"> Name, A to Z</a>
+                                    <a class="dropdown-item" href="#"> Name, Z to A</a>
+                                    <a class="dropdown-item" href="#"> Price, low to high</a>
+                                    <a class="dropdown-item" href="#"> Price, high to low</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- product-tab-nav end -->
+                <div class="tab-content" id="pills-tabContent">
+                    <!-- first tab-pane -->
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                         aria-labelledby="pills-home-tab">
+                        <div class="row grid-view theme1">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-sm-6 col-lg-4 col-xl-2 mb-30">
+                                    <div class="product-list">
+                                        <div class="card product-card">
+                                            <div class="card-body p-0">
+                                                <div class="media flex-column">
+                                                    <div class="product-thumbnail position-relative">
+                                                        <span class="badge badge-success top-left">-10%</span>
+                                                        <span class="badge badge-danger top-right">New</span>
+                                                        <a href="~/Home/Product_Details/@item.product_id">
+                                                            <img class="product-image-main" style="height:162px" src="~/Uploads/Products/@item.image_main"
+                                                                 alt="thumbnail">
+                                                        </a>
+                                                        <!-- product links -->
+                                                        <ul class="product-links d-flex justify-content-center">
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          title="add to wishlist" class="icon-heart"> </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#compare">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          title="Add to compare" class="icon-shuffle"></span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          title="Thông tin nhanh" class="icon-magnifier"></span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <!-- product links end-->
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <div class="product-desc">
+                                                            <h3 class="title">
+                                                                <a href="shop-grid-4-column.html" class="cut-text">
+
+                                                                    @item.product_name
+
+                                                                </a>
+                                                            </h3>
+                                                            <div class="star-rating">
+                                                                <span class="ion-ios-star"></span>
+                                                                <span class="ion-ios-star"></span>
+                                                                <span class="ion-ios-star"></span>
+                                                                <span class="ion-ios-star"></span>
+                                                                <span class="ion-ios-star de-selected"></span>
+                                                            </div>
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h6 class="product-price" style="font-size:15px">
+                                                                    @*<del class="del">$23.90</del>*@
+                                                                    <span class="onsale">@string.Format("{0:#,0}", item.price) đ</span>
+                                                                </h6>
+                                                                <button class="pro-btn" data-toggle="modal"
+                                                                        data-target="#h-@item.product_id">
+                                                                    <i class="icon-basket"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- product-list End -->
+                                    </div>
+                                </div>
+                                <div class="modal fade style3" id="h-@item.product_id" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header justify-content-center bg-dark">
+                                                <h5 class="modal-title" id="add-to-cartCenterTitle">
+                                                    <span class="ion-checkmark-round"></span>
+                                                    Bạn muốn thếm sản phẩm vào giỏ???
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-5 divide-right">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <img src="~/Uploads/Products/@item.image_main" alt="thumbnail">
+                                                            </div>
+                                                            <div class="col-md-6 mb-2 mb-md-0">
+                                                                <h4 class="product-name">@item.product_name</h4>
+                                                                <h5 class="price">@string.Format("{0:#,0}", item.price) đ</h5>
+                                                                <h6 class="color"><strong>Dimension: </strong>: <span class="dmc">40x60cm</span> </h6>
+                                                                <h6 class="quantity"><strong>Số lượng:</strong>&nbsp;1</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="modal-cart-content">
+                                                            <p class="cart-products-count">Giỏ hàng hiện tại</p>
+                                                            <p><strong>Tổng loại sản phẩm:</strong>&nbsp;@cart_Count</p>
+                                                            <p><strong>Tạm tính:</strong>&nbsp;@cart_toltal.ToString("n0") đ </p>
+                                                            <p><strong>Phí vận chuyển:</strong>&nbsp;@shipping.ToString("n0") đ</p>
+                                                            <p><strong>Tổng:</strong>&nbsp;@sum_toltal.ToString("n0") đ (đã bao gồm thuế VAT nếu có)</p>
+                                                            <div class="cart-content-btn">
+                                                                <button type="button" class="btn theme-btn--dark1 btn--md mt-4"
+                                                                        data-dismiss="modal">
+                                                                    Tiếp tục mua
+                                                                </button>
+                                                                <a href="~/Home/AddCartItem/@item.product_id" class="btn theme-btn--dark1 btn--md mt-4">Thêm vào giỏ</a>
+                                                                <button class="btn theme-btn--dark1 btn--md mt-4">
+                                                                    <i class="ion-checkmark-round"></i>Xem giỏ hàng
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div style="display:flex;justify-content:center">
+                            <div>
+                                <nav aria-label="Page navigation example">
+
+                                    @Html.PagedListPager(Model, page => Url.Action("Product_View_Transaction", new { page }), new PagedListRenderOptions()
+                               {
+                                   UlElementClasses = new[] { "pagination justify-content-center " },
+                                   LiElementClasses = new[] { "page-item", "page-link" },
+                                   LinkToPreviousPageFormat = "Trang trước",
+                                   LinkToNextPageFormat = "Trang tiếp",
+                               })
+                                </nav>
+                                @*Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-30 order-lg-first">
+                <aside class="left-sidebar theme1">
+                    <!-- search-filter start -->
+                    <div class="search-filter">
+                        <div class="check-box-inner pt-0">
+                            <h4 class="title">Lọc sản phẩm</h4>
+                        </div>
+
+                    </div>
+
+                    <ul id="offcanvas-menu2" class="blog-ctry-menu">
+                        <li>
+                            <a href="javascript:void(0)">Danh mục</a>
+                            <ul class="category-sub-menu">
+                                @foreach (var item in danhmuc)
+                                {
+                                    var sl = db.products.Count(s => s.catalog_id == item.catalog_id).ToString();
+                                    <li><a href="~/Home/Product_View_Transaction/@item.catalog_id">@item.catalog_name (@sl)</a></li>
+                                }
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
+                    <div class="search-filter">
+                        @using (Html.BeginForm("Product_View_Transaction", "Home", FormMethod.Post, new { @class = "form-inline position-relative" }))
+                        {
+                            <input type="hidden" name="check" id="check" value="@check_txt" />
+                            <input type="hidden" name="id" id="id" value="@id_search" />
+                            <div class="check-box-inner mt-10">
+                                <h4 class="title">Mức giá</h4>
+                                <div class="filter-check-box">
+                                    <input type="radio" id="50k" name="check_seach" value="1">
+                                    <label for="50k">0k - 50k <span></span></label>
+                                </div>
+                                <div class="filter-check-box">
+                                    <input type="radio" id="200k" name="check_seach" value="2">
+                                    <label for="200k">50k - 200k</label>
+                                </div>
+                                <div class="filter-check-box">
+                                    <input type="radio" id="200kbig" name="check_seach" value="3">
+                                    <label for="200kbig">> 200k<span></span></label>
+                                </div>
+                            </div>
+                            <!-- check-box-inner -->
+                            <div class="check-box-inner mt-10">
+                                <button type="submit" class="btn btn-danger" name="btn_price_search">Tìm kiếm</button>
+                            </div>
+                        }
+                    </div>
+                    <!-- search-filter end -->
+                    <div class="product-widget mb-60 mt-30">
+                        <h3 class="title">Product Tags</h3>
+                        <ul class="product-tag d-flex flex-wrap">
+                            <li><a href="#">shopping</a></li>
+                            <li><a href="#">New products</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">sale</a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+        var _radioValue = $("input[name='check_seach']:checked").val();
+        console.log(_radioValue);
+        $(document).on('click', "button[name='btn_price_search']", function () {
+
+            $.ajax({
+                url: '/Home/Product_View_Transaction',
+                type: 'post',
+                data: {
+                    price: _price,
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        //window.location = data.url;
+                        //window.location = response.url;
+                        //console.log(data.listProduct_id);
+                    } else {
+                        alert("Loi");
+                        console.log(data.msg);
+                    }
+                }
+            })
+
+
+        });
+    </script>
+
+
+
+
+}

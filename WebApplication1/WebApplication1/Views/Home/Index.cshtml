@@ -1,0 +1,1089 @@
+﻿@model IEnumerable<WebApplication1.Models.product>
+@using WebApplication1.Models;
+@{
+    int cart_Count = 0;
+    int cart_toltal = 0;
+    int shipping = 22000;
+
+    List<Carts> cart = Session["cart"] as List<Carts>;
+    if (cart != null)
+    {
+        cart_toltal = cart.Select(s => s._sum).Sum();
+        if (cart_toltal >= 200000)
+        {
+            shipping = 0;
+        }
+        cart_Count = cart.Count;
+    }
+    int sum_toltal = cart_toltal + shipping;
+    string id_user_t = "";
+    if (Session["user"] != null)
+    {
+        user_temp a = Session["user"] as user_temp;
+        id_user_t = a._gmail;
+    }
+
+}
+<link href="~/assets/css/Stylemain.css" rel="stylesheet" />
+
+<!-- main slider end -->
+<!-- common banner  start -->
+<input type="hidden" name="_gmail" id="_gmail" value="@id_user_t" />
+<div class="common-banner pt-80 bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-30">
+                <div class="banner-thumb">
+                    <a href="shop-grid-4-column.html" class="zoom-in d-block overflow-hidden">
+                        <img style="width:690px;height:400px" src="~/Uploads/ImgLayout/img (9).jpg" alt="banner-thumb-naile">
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-30">
+                <div class="banner-thumb">
+                    <a href="shop-grid-4-column.html" class="zoom-in d-block overflow-hidden">
+                        <img style="height:400px" src="~/Uploads/ImgLayout/img (2).jpg" alt="banner-thumb-naile">
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-30">
+                <div class="banner-thumb">
+                    <a href="shop-grid-4-column.html" class="zoom-in d-block overflow-hidden">
+                        <img style="height:400px" src="~/Uploads/ImgLayout/img (3).jpg" alt="banner-thumb-naile">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- common banner  end -->
+<!-- product tab start -->
+<section class="product-tab bg-white pt-50 pb-80">
+    <div class="container">
+        <div class="product-tab-nav mb-35">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="section-title text-center mb-30">
+                        <h2 class="title text-dark text-capitalize">Sản phẩm Shop</h2>
+                        <p class="text mt-10">Hãy thêm vào giỏ hàng của bạn.</p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <nav class="product-tab-menu theme1">
+                        <ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home"
+                                   role="tab" aria-controls="pills-home" aria-selected="true">Tất cả sản phẩm</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile"
+                                   role="tab" aria-controls="pills-profile" aria-selected="false">Bán chạy nhất</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact"
+                                   role="tab" aria-controls="pills-contact" aria-selected="false">Mới nhất</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- product-tab-nav end -->
+        <div class="row">
+            <div class="col-12">
+                <div class="tab-content" id="pills-tabContent">
+                    <!-- first tab-pane -->
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row grid-view theme1">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-sm-6 col-lg-4 col-xl-2 mb-30">
+                                    <div class="product-list">
+                                        <div class="card product-card">
+                                            <div class="card-body p-0">
+                                                <div class="media flex-column">
+                                                    <div class="product-thumbnail position-relative">
+                                                        <span class="badge badge-success top-left">-10%</span>
+                                                        <span class="badge badge-danger top-right">Đã bán: @item.quantity_sold</span>
+                                                        <a href="~/Home/Product_Details/@item.product_id">
+                                                            <img class="product-image-main" src="~/Uploads/Products/@item.image_main"
+                                                                 alt="thumbnail">
+                                                        </a>
+                                                        <!-- product links -->
+                                                        <ul class="product-links d-flex justify-content-center">
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          title="add to wishlist" class="icon-heart"> </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#compare">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          title="Add to compare" class="icon-shuffle"></span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          title="Thông tin nhanh" class="icon-magnifier"></span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <!-- product links end-->
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <div class="product-desc">
+                                                            <h3 class="title">
+                                                                <a href="shop-grid-4-column.html" class="cut-text-content">
+                                                                    @item.product_name
+
+                                                                </a>
+                                                            </h3>
+                                                            <div class="star-rating">
+                                                                <span class="ion-ios-star"></span>
+                                                                <span class="ion-ios-star"></span>
+                                                                <span class="ion-ios-star"></span>
+                                                                <span class="ion-ios-star"></span>
+                                                                <span class="ion-ios-star de-selected"></span>
+                                                            </div>
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h6 class="product-price">
+                                                                    @*<del class="del">$23.90</del>*@
+                                                                    <span class="onsale">@string.Format("{0:#,0}", item.price) đ</span>
+                                                                </h6>
+                                                                <button class="pro-btn" data-toggle="modal"
+                                                                        data-target="#h-@item.product_id">
+                                                                    <i class="icon-basket"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- product-list End -->
+                                    </div>
+                                </div>
+                                <div class="modal fade style3" id="h-@item.product_id" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header justify-content-center bg-dark">
+                                                <h5 class="modal-title" id="add-to-cartCenterTitle">
+                                                    <span class="ion-checkmark-round"></span>
+                                                    Bạn muốn thếm sản phẩm vào giỏ???
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-5 divide-right">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <img src="~/Uploads/Products/@item.image_main" alt="thumbnail">
+                                                            </div>
+                                                            <div class="col-md-6 mb-2 mb-md-0">
+                                                                <h4 class="product-name">@item.product_name</h4>
+                                                                <h5 class="price">@string.Format("{0:#,0}", item.price) đ</h5>
+                                                                <h6 class="color"><strong>Dimension: </strong>: <span class="dmc">40x60cm</span> </h6>
+                                                                <h6 class="quantity"><strong>Số lượng:</strong>&nbsp;1</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="modal-cart-content">
+                                                            <p class="cart-products-count">Giỏ hàng hiện tại</p>
+                                                            <p><strong>Tổng loại sản phẩm:</strong>&nbsp;@cart_Count</p>
+                                                            <p><strong>Tạm tính:</strong>&nbsp;@cart_toltal.ToString("n0") đ </p>
+                                                            <p><strong>Phí vận chuyển:</strong>&nbsp;@shipping.ToString("n0") đ</p>
+                                                            <p><strong>Tổng:</strong>&nbsp;@sum_toltal.ToString("n0") đ (đã bao gồm thuế VAT nếu có)</p>
+                                                            <div class="cart-content-btn">
+                                                                <button type="button" class="btn theme-btn--dark1 btn--md mt-4"
+                                                                        data-dismiss="modal">
+                                                                    Tiếp tục mua
+                                                                </button>
+                                                                <a href="~/Home/AddCartItem/@item.product_id" class="btn theme-btn--dark1 btn--md mt-4">Thêm vào giỏ</a>
+                                                                <button class="btn theme-btn--dark1 btn--md mt-4">
+                                                                    <i class="ion-checkmark-round"></i>Xem giỏ hàng
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+                    <!-- second tab-pane -->
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="row grid-view theme1">
+                            @{
+                                if (ViewBag.sanphambanchay != null)
+                                {
+                                    foreach (var item in ViewBag.sanphambanchay)
+                                    {
+                                        <div class="col-sm-6 col-lg-4 col-xl-2 mb-30">
+                                            <div class="product-list">
+                                                <div class="card product-card">
+                                                    <div class="card-body p-0">
+                                                        <div class="media flex-column">
+                                                            <div class="product-thumbnail position-relative">
+                                                                <span class="badge badge-success top-left">Đã bán: @item.quantity_sold</span>
+                                                                <span class="badge badge-danger top-right">New</span>
+                                                                <a href="~/Home/Product_Details/@item.product_id">
+                                                                    <img class="product-image-main" src="~/Uploads/Products/@item.image_main"
+                                                                         alt="thumbnail">
+                                                                </a>
+                                                                <!-- product links -->
+                                                                <ul class="product-links d-flex justify-content-center">
+                                                                    <li>
+                                                                        <a href="wishlist.html">
+                                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                                  title="add to wishlist" class="icon-heart"> </span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#" data-toggle="modal" data-target="#compare">
+                                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                                  title="Add to compare" class="icon-shuffle"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                                  title="Thông tin nhanh" class="icon-magnifier"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                                <!-- product links end-->
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <div class="product-desc">
+                                                                    <h3 class="title">
+                                                                        <a href="shop-grid-4-column.html" class="cut-text-content">
+                                                                            @item.product_name
+
+                                                                        </a>
+                                                                    </h3>
+                                                                    <div class="star-rating">
+                                                                        <span class="ion-ios-star"></span>
+                                                                        <span class="ion-ios-star"></span>
+                                                                        <span class="ion-ios-star"></span>
+                                                                        <span class="ion-ios-star"></span>
+                                                                        <span class="ion-ios-star de-selected"></span>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center justify-content-between">
+                                                                        <h6 class="product-price">
+                                                                            @*<del class="del">$23.90</del>*@
+                                                                            <span class="onsale">@string.Format("{0:#,0}", item.price) đ</span>
+                                                                        </h6>
+                                                                        <button class="pro-btn" data-toggle="modal"
+                                                                                data-target="#h-@item.product_id">
+                                                                            <i class="icon-basket"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- product-list End -->
+                                            </div>
+                                        </div>
+                                        <div class="modal fade style3" id="h-@item.product_id" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header justify-content-center bg-dark">
+                                                        <h5 class="modal-title" id="add-to-cartCenterTitle">
+                                                            <span class="ion-checkmark-round"></span>
+                                                            Bạn muốn thếm sản phẩm vào giỏ???
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-5 divide-right">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <img src="~/Uploads/Products/@item.image_main" alt="thumbnail">
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-2 mb-md-0">
+                                                                        <h4 class="product-name">@item.product_name</h4>
+                                                                        <h5 class="price">@string.Format("{0:#,0}", item.price) đ</h5>
+                                                                        <h6 class="color"><strong>Dimension: </strong>: <span class="dmc">40x60cm</span> </h6>
+                                                                        <h6 class="quantity"><strong>Số lượng:</strong>&nbsp;1</h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <div class="modal-cart-content">
+                                                                    <p class="cart-products-count">Giỏ hàng hiện tại</p>
+                                                                    <p><strong>Tổng loại sản phẩm:</strong>&nbsp;@cart_Count</p>
+                                                                    <p><strong>Tạm tính:</strong>&nbsp;@cart_toltal.ToString("n0") đ </p>
+                                                                    <p><strong>Phí vận chuyển:</strong>&nbsp;@shipping.ToString("n0") đ</p>
+                                                                    <p><strong>Tổng:</strong>&nbsp;@sum_toltal.ToString("n0") đ (đã bao gồm thuế VAT nếu có)</p>
+                                                                    <div class="cart-content-btn">
+                                                                        <button type="button" class="btn theme-btn--dark1 btn--md mt-4"
+                                                                                data-dismiss="modal">
+                                                                            Tiếp tục mua
+                                                                        </button>
+                                                                        <a href="~/Home/AddCartItem/@item.product_id" class="btn theme-btn--dark1 btn--md mt-4">Thêm vào giỏ</a>
+                                                                        <button class="btn theme-btn--dark1 btn--md mt-4">
+                                                                            <i class="ion-checkmark-round"></i>Xem giỏ hàng
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            }
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <!-- third tab-pane -->
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="row grid-view theme1">
+                            @{
+                                if (ViewBag.sanphammoinhat != null)
+                                {
+                                    foreach (var item in ViewBag.sanphammoinhat)
+                                    {
+                                        <div class="col-sm-6 col-lg-4 col-xl-2 mb-30">
+                                            <div class="product-list">
+                                                <div class="card product-card">
+                                                    <div class="card-body p-0">
+                                                        <div class="media flex-column">
+                                                            <div class="product-thumbnail position-relative">
+                                                                <span class="badge badge-danger top-right">New</span>
+                                                                <a href="~/Home/Product_Details/@item.product_id">
+                                                                    <img class="product-image-main" src="~/Uploads/Products/@item.image_main"
+                                                                         alt="thumbnail">
+                                                                </a>
+                                                                <!-- product links -->
+                                                                <ul class="product-links d-flex justify-content-center">
+                                                                    <li>
+                                                                        <a href="wishlist.html">
+                                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                                  title="add to wishlist" class="icon-heart"> </span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#" data-toggle="modal" data-target="#compare">
+                                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                                  title="Add to compare" class="icon-shuffle"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                            <span data-toggle="tooltip" data-placement="bottom"
+                                                                                  title="Thông tin nhanh" class="icon-magnifier"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                                <!-- product links end-->
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <div class="product-desc">
+                                                                    <h3 class="title">
+                                                                        <a href="shop-grid-4-column.html" class="cut-text-content">
+                                                                            @item.product_name
+
+                                                                        </a>
+                                                                    </h3>
+                                                                    <div class="star-rating">
+                                                                        <span class="ion-ios-star"></span>
+                                                                        <span class="ion-ios-star"></span>
+                                                                        <span class="ion-ios-star"></span>
+                                                                        <span class="ion-ios-star"></span>
+                                                                        <span class="ion-ios-star de-selected"></span>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center justify-content-between">
+                                                                        <h6 class="product-price">
+                                                                            @*<del class="del">$23.90</del>*@
+                                                                            <span class="onsale">@string.Format("{0:#,0}", item.price) đ</span>
+                                                                        </h6>
+                                                                        <button class="pro-btn" data-toggle="modal"
+                                                                                data-target="#h-@item.product_id">
+                                                                            <i class="icon-basket"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- product-list End -->
+                                            </div>
+                                        </div>
+                                        <div class="modal fade style3" id="h-@item.product_id" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header justify-content-center bg-dark">
+                                                        <h5 class="modal-title" id="add-to-cartCenterTitle">
+                                                            <span class="ion-checkmark-round"></span>
+                                                            Bạn muốn thếm sản phẩm vào giỏ???
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-5 divide-right">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <img src="~/Uploads/Products/@item.image_main" alt="thumbnail">
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-2 mb-md-0">
+                                                                        <h4 class="product-name">@item.product_name</h4>
+                                                                        <h5 class="price">@string.Format("{0:#,0}", item.price) đ</h5>
+                                                                        <h6 class="color"><strong>Dimension: </strong>: <span class="dmc">40x60cm</span> </h6>
+                                                                        <h6 class="quantity"><strong>Số lượng:</strong>&nbsp;1</h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <div class="modal-cart-content">
+                                                                    <p class="cart-products-count">Giỏ hàng hiện tại</p>
+                                                                    <p><strong>Tổng loại sản phẩm:</strong>&nbsp;@cart_Count</p>
+                                                                    <p><strong>Tạm tính:</strong>&nbsp;@cart_toltal.ToString("n0") đ </p>
+                                                                    <p><strong>Phí vận chuyển:</strong>&nbsp;@shipping.ToString("n0") đ</p>
+                                                                    <p><strong>Tổng:</strong>&nbsp;@sum_toltal.ToString("n0") đ (đã bao gồm thuế VAT nếu có)</p>
+                                                                    <div class="cart-content-btn">
+                                                                        <button type="button" class="btn theme-btn--dark1 btn--md mt-4"
+                                                                                data-dismiss="modal">
+                                                                            Tiếp tục mua
+                                                                        </button>
+                                                                        <a href="~/Home/AddCartItem/@item.product_id" class="btn theme-btn--dark1 btn--md mt-4">Thêm vào giỏ</a>
+                                                                        <button class="btn theme-btn--dark1 btn--md mt-4">
+                                                                            <i class="ion-checkmark-round"></i>Xem giỏ hàng
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            }
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- product tab end -->
+<!-- product tab repetation start -->
+<section class="bg-white theme1 pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-5 col-xl-4 mb-5 mb-lg-0">
+                <div class="card product-card no-shadow theme-border">
+                    <div class="product-ctry-init slick-nav-sync">
+                        @{
+                            if (ViewBag.giamgiathapnhat != null)
+                            {
+                                foreach (var item in ViewBag.giamgiathapnhat)
+                                {
+                                    int giam = (int)(item.price * (item.discount / 100));
+                                    <div class="slider-item">
+                                        <div class="card-body pt-4 px-4 pb-5 position-relative">
+                                            <div class="hot-deal d-flex align-items-center justify-content-between">
+                                                <h3 class="title text-dark text-capitalize">giá tốt nhất</h3><span class="badge badge-success position-static cb6">- @item.discount %</span>
+                                            </div>
+                                            <!-- countdown-sync-init -->
+                                            <div class="countdown-sync-init">
+                                                <div class="countdown-item">
+                                                    <div class="product-thumb">
+                                                        <img src="~/Uploads/Products/@item.image_main" alt="product-thumb">
+                                                        <ul class="product-links d-flex justify-content-center">
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="add to wishlist"
+                                                                          class="icon-heart"></span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#compare">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="Add to compare" class="icon-shuffle">
+
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="Quick view" class="icon-magnifier">
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- single-product end -->
+                                                <div class="countdown-item">
+                                                    <div class="product-thumb">
+                                                        <img src="assets/img/slider/thumb/2.jpg" alt="product-thumb">
+                                                        <ul class="product-links d-flex justify-content-center">
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="add to wishlist"
+                                                                          class="icon-heart"></span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#compare">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="Add to compare" class="icon-shuffle">
+
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="Quick view" class="icon-magnifier">
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- single-product end -->
+                                                <div class="countdown-item">
+                                                    <div class="product-thumb">
+                                                        <img src="assets/img/slider/thumb/3.jpg" alt="product-thumb">
+                                                        <ul class="product-links d-flex justify-content-center">
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="add to wishlist"
+                                                                          class="icon-heart"></span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#compare">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="Add to compare" class="icon-shuffle">
+
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="Quick view" class="icon-magnifier">
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- single-product end -->
+                                                <div class="countdown-item">
+                                                    <div class="product-thumb">
+                                                        <img src="assets/img/slider/thumb/4.jpg" alt="product-thumb">
+                                                        <ul class="product-links d-flex justify-content-center">
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="add to wishlist"
+                                                                          class="icon-heart"></span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#compare">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="Add to compare" class="icon-shuffle">
+
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                    <span data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="Quick view" class="icon-magnifier">
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- single-product end -->
+                                            </div>
+
+                                            <div class="product-desc text-center p-0">
+                                                <h3 class="title">
+                                                    <a href="shop-grid-4-column.html" class="cut-text-content">
+                                                        @item.product_name
+                                                    </a>
+                                                </h3>
+                                                <div class="star-rating">
+                                                    <span class="ion-ios-star"></span>
+                                                    <span class="ion-ios-star"></span>
+                                                    <span class="ion-ios-star"></span>
+                                                    <span class="ion-ios-star"></span>
+                                                    <span class="ion-ios-star"></span>
+                                                </div>
+                                                <div class="text-center position-relative">
+                                                    <h6 class="product-price">
+                                                        <del class="del">@string.Format("{0:#,0}", item.price) đ</del> <span class="onsale">@string.Format("{0:#,0}", (item.price - (item.price * (float)(item.discount * 0.01)))) đ</span>
+                                                    </h6>
+                                                    <button class="pro-btn pro-btn-right" data-toggle="modal"
+                                                            data-target="#add-to-cart">
+                                                        <i class="icon-basket"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="availability mt-15">
+                                                    <p>Availability: <span class="in-stock">300 In Stock</span></p>
+                                                </div>
+                                            </div>
+                                            <div class="clockdiv d-md-flex justify-content-center align-items-center">
+                                                <div class="title">Hurry Up! Offers ends in:</div>
+                                                <div class="text-center" data-countdown="2022/01/01"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-7 col-xl-8">
+                <!-- section-title start -->
+                <div class="section-title text-center mb-30">
+                    <h2 class="title text-dark text-capitalize">Sản phẩm mới nhất</h2>
+                    <p class="text mt-10">Add new products to weekly line up</p>
+                </div>
+                <!-- section-title end -->
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="row grid-view theme1">
+                        @{
+                            if (ViewBag.sanphammoinhat != null)
+                            {
+                                foreach (var item in ViewBag.sanphammoinhat)
+                                {
+                                    <div class="col-sm-6 col-lg-4 col-xl-3 mb-30">
+                                        <div class="product-list">
+                                            <div class="card product-card">
+                                                <div class="card-body p-0">
+                                                    <div class="media flex-column">
+                                                        <div class="product-thumbnail position-relative">
+                                                            <span class="badge badge-success top-left">-10%</span>
+                                                            <span class="badge badge-danger top-right">Đã bán: @item.quantity_sold</span>
+                                                            <a href="~/Home/Product_Details/@item.product_id">
+                                                                <img class="product-image-main" src="~/Uploads/Products/@item.image_main"
+                                                                     alt="thumbnail">
+                                                            </a>
+                                                            <!-- product links -->
+                                                            <ul class="product-links d-flex justify-content-center">
+                                                                <li>
+                                                                    <a href="wishlist.html">
+                                                                        <span data-toggle="tooltip" data-placement="bottom"
+                                                                              title="add to wishlist" class="icon-heart"> </span>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#" data-toggle="modal" data-target="#compare">
+                                                                        <span data-toggle="tooltip" data-placement="bottom"
+                                                                              title="Add to compare" class="icon-shuffle"></span>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#" data-toggle="modal" data-target="#quick-view">
+                                                                        <span data-toggle="tooltip" data-placement="bottom"
+                                                                              title="Thông tin nhanh" class="icon-magnifier"></span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                            <!-- product links end-->
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <div class="product-desc">
+                                                                <h3 class="title">
+                                                                    <a href="shop-grid-4-column.html" class="cut-text-content">
+                                                                        @item.product_name
+
+                                                                    </a>
+                                                                </h3>
+                                                                <div class="star-rating">
+                                                                    <span class="ion-ios-star"></span>
+                                                                    <span class="ion-ios-star"></span>
+                                                                    <span class="ion-ios-star"></span>
+                                                                    <span class="ion-ios-star"></span>
+                                                                    <span class="ion-ios-star de-selected"></span>
+                                                                </div>
+                                                                <div class="d-flex align-items-center justify-content-between">
+                                                                    <h6 class="product-price">
+                                                                        @*<del class="del">$23.90</del>*@
+                                                                        <span class="onsale">@string.Format("{0:#,0}", item.price) đ</span>
+                                                                    </h6>
+                                                                    <button class="pro-btn" data-toggle="modal"
+                                                                            data-target="#h-@item.product_id">
+                                                                        <i class="icon-basket"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- product-list End -->
+                                        </div>
+                                    </div>
+                                    <div class="modal fade style3" id="h-@item.product_id" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header justify-content-center bg-dark">
+                                                    <h5 class="modal-title" id="add-to-cartCenterTitle">
+                                                        <span class="ion-checkmark-round"></span>
+                                                        Bạn muốn thếm sản phẩm vào giỏ???
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-5 divide-right">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <img src="~/Uploads/Products/@item.image_main" alt="thumbnail">
+                                                                </div>
+                                                                <div class="col-md-6 mb-2 mb-md-0">
+                                                                    <h4 class="product-name">@item.product_name</h4>
+                                                                    <h5 class="price">@string.Format("{0:#,0}", item.price) đ</h5>
+                                                                    <h6 class="color"><strong>Dimension: </strong>: <span class="dmc">40x60cm</span> </h6>
+                                                                    <h6 class="quantity"><strong>Số lượng:</strong>&nbsp;1</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <div class="modal-cart-content">
+                                                                <p class="cart-products-count">Giỏ hàng hiện tại</p>
+                                                                <p><strong>Tổng loại sản phẩm:</strong>&nbsp;@cart_Count</p>
+                                                                <p><strong>Tạm tính:</strong>&nbsp;@cart_toltal.ToString("n0") đ </p>
+                                                                <p><strong>Phí vận chuyển:</strong>&nbsp;@shipping.ToString("n0") đ</p>
+                                                                <p><strong>Tổng:</strong>&nbsp;@sum_toltal.ToString("n0") đ (đã bao gồm thuế VAT nếu có)</p>
+                                                                <div class="cart-content-btn">
+                                                                    <button type="button" class="btn theme-btn--dark1 btn--md mt-4"
+                                                                            data-dismiss="modal">
+                                                                        Tiếp tục mua
+                                                                    </button>
+                                                                    <a href="~/Home/AddCartItem/@item.product_id" class="btn theme-btn--dark1 btn--md mt-4">Thêm vào giỏ</a>
+                                                                    <button class="btn theme-btn--dark1 btn--md mt-4">
+                                                                        <i class="ion-checkmark-round"></i>Xem giỏ hàng
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+
+
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- product tab repetation end -->
+<!-- staic media start -->
+<section class="static-media-section pb-80 bg-white">
+    <div class="container">
+        <div class="static-media-wrap theme-bg rounded-5">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6 py-3">
+                    <div class="d-flex static-media2 flex-column flex-sm-row">
+                        <img class="align-self-center mb-2 mb-sm-0 mr-auto  mr-sm-3" src="~/assets/img/icon/2.png"
+                             alt="icon">
+                        <div class="media-body">
+                            <h4 class="title text-capitalize text-white">Miễn phí gia hàng</h4>
+                            <p class="text text-white">Đơn hàng trên 200k.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 py-3">
+                    <div class="d-flex static-media2 flex-column flex-sm-row">
+                        <img class="align-self-center mb-2 mb-sm-0 mr-auto  mr-sm-3" src="~/assets/img/icon/3.png"
+                             alt="icon">
+                        <div class="media-body">
+                            <h4 class="title text-capitalize text-white">Đổi trả mỗi phí</h4>
+                            <p class="text text-white">Đổi trả trong vòng 7 ngày.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 py-3">
+                    <div class="d-flex static-media2 flex-column flex-sm-row">
+                        <img class="align-self-center mb-2 mb-sm-0 mr-auto  mr-sm-3" src="~/assets/img/icon/4.png"
+                             alt="icon">
+                        <div class="media-body">
+                            <h4 class="title text-capitalize text-white">100% An toàn</h4>
+                            <p class="text text-white">Thanh toán an toàn.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 py-3">
+                    <div class="d-flex static-media2 flex-column flex-sm-row">
+                        <img class="align-self-center mb-2 mb-sm-0 mr-auto  mr-sm-3" src="~/assets/img/icon/5.png"
+                             alt="icon">
+                        <div class="media-body">
+                            <h4 class="title text-capitalize text-white">Hỗ trợ 24/7</h4>
+                            <p class="text text-white">Liên hệ với chúng tôi 24h trên ngày.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- staic media end -->
+<!-- brand slider start -->
+<div class="brand-slider-section theme1 bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="brand-init border-top py-35 slick-nav-brand">
+                    <div class="slider-item">
+                        <div class="single-brand">
+                            <a href="https://themeforest.net/user/hastech" class="brand-thumb">
+                                <img src="~/assets/img/brand/1.jpg" alt="brand-thumb-nail">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- slider-item end -->
+                    <div class="slider-item">
+                        <div class="single-brand">
+                            <a href="https://themeforest.net/user/hastech" class="brand-thumb">
+                                <img src="~/assets/img/brand/2.jpg" alt="brand-thumb-nail">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- slider-item end -->
+                    <div class="slider-item">
+                        <div class="single-brand">
+                            <a href="https://themeforest.net/user/hastech" class="brand-thumb">
+                                <img src="~/assets/img/brand/3.jpg" alt="brand-thumb-nail">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- slider-item end -->
+                    <div class="slider-item">
+                        <div class="single-brand">
+                            <a href="https://themeforest.net/user/hastech" class="brand-thumb">
+                                <img src="~/assets/img/brand/4.jpg" alt="brand-thumb-nail">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- slider-item end -->
+                    <div class="slider-item">
+                        <div class="single-brand">
+                            <a href="https://themeforest.net/user/hastech" class="brand-thumb">
+                                <img src="~/assets/img/brand/5.jpg" alt="brand-thumb-nail">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- slider-item end -->
+                    <div class="slider-item">
+                        <div class="single-brand">
+                            <a href="https://themeforest.net/user/hastech" class="brand-thumb">
+                                <img src="~/assets/img/brand/2.jpg" alt="brand-thumb-nail">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- slider-item end -->
+                    <div class="slider-item">
+                        <div class="single-brand">
+                            <a href="https://themeforest.net/user/hastech" class="brand-thumb">
+                                <img src="~/assets/img/brand/3.jpg" alt="brand-thumb-nail">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- slider-item end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- partial:index.partial.html -->
+<style>
+    .circle  i {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        color: #666;
+        cursor: pointer;
+        transition: color 200ms;
+</style>
+
+<script src="~/assets/theme_char/script.js"></script>
+<link href="~/assets/theme_char/style.css" rel="stylesheet" />
+
+<button id="Hien_chat" name="Hien_chat" href="" class="theme-default" style="position: fixed; z-index: 215; bottom: 110px;"><i class="fas fa-comment-dots"></i></button>
+<div class="" id="layput_chat_user" style="display:none; position: fixed; z-index: 214; bottom: 45px;right:128px">
+
+    <div class="chat">
+        <div class="contact bar" style="display:flex;padding-left:0;">
+            <div style="width: 100%; display: flex;justify-content:space-between">
+                <div class=" stark">
+                    <img src="~/Uploads/ImgNull/null.png" width="64" height="64" class="rounded-circle mb-2" alt="Angelica Ramos">
+                </div>
+                <div class="circle" >
+                    <button type="button" name="btn_circle" style="width:24px"><i class="fas fa-times-circle"></i></button>
+                </div>
+
+            </div>
+          
+        </div>
+        <div class="messages" id="messages" >
+            @*<div class="time">
+                Today at 11:41
+            </div>
+            <div class="message parker">
+                Hey, man! What's up, Mr Stark? 👋
+            </div>
+            <div class="message stark">
+                Kid, where'd you come from?
+            </div>
+            <div class="message parker">
+                Field trip! 🤣
+            </div>
+            <div class="message parker">
+                Uh, what is this guy's problem, Mr. Stark? 🤔
+            </div>*@
+
+        </div>
+        <div class="input">
+            @*<i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i><input placeholder="Type your message here!"
+            type="text" /><i class="fas fa-microphone"></i>*@
+            <input name="chatcontent" id="chatcontent" placeholder="Type your message here!" type="text" /><button name="ChatOk"><i class="fas fa-share"></i></button>
+        </div>
+    </div>
+</div>
+<!-- partial -->
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            loadData();
+        })
+        function loadData() {
+            $('#messages').empty();
+
+            $.ajax({
+                url: "/Home/DownData",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+
+                success: function (data) {
+                  
+                    $.each(data._dulieu, function (key, item) {
+                        let tr = "";
+                        if (item.Chat_check == "0") {
+                            tr = '<div class="message parker">' + item.Chat_content + '</div>'
+                        } else {
+                            tr = '<div class="message stark">' + item.Chat_content + '</div>'
+                        }
+                        $('#messages').append(tr);
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+
+        $(document).on('click', "button[name='ChatOk']", function () {
+            var _gmail = $("#_gmail").val();
+            var _chatcontent = $("#chatcontent").val();
+            console.log(_gmail);
+            console.log(_chatcontent);
+            $.ajax({
+                url: '/Home/UpData',
+                type: 'post',
+                data: {
+                    gmail: _gmail,
+                    chatcontent: _chatcontent
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $("#chatcontent").val("");
+                        loadData();
+
+                    } else {
+                        console.log(data.msg);
+                    }
+                }
+            });
+
+
+
+        });
+        $(document).on('click', "button[name='Hien_chat']", function () {
+            $("#layput_chat_user").slideDown(2000);
+        });
+        $(document).on('click', "button[name='btn_circle']", function () {
+            $("#layput_chat_user").slideUp(2000);
+        });
+    </script>
+
+
+
+
+}

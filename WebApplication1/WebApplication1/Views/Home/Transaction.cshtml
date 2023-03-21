@@ -1,0 +1,381 @@
+﻿@using WebApplication1.Models;
+@{
+    ViewBag.Title = "Transaction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Cart_Temp> cart_Temps = Session["cart_temp"] as List<Cart_Temp>;
+    user_temp user = Session["user"] as user_temp;
+    int tamtinh = 0;
+    int shipping = 22000;
+    int total = 0;
+    int soluong = 0;
+}
+<style>
+    .thanhtoan {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        height: 100%;
+    }
+    .method-icon {
+        margin-right: 12px;
+        object-fit: contain;
+    }
+</style>
+<!-- product tab start -->
+<section class="check-out-section pt-40 pb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mb-30">
+                <div id="accordion">
+                    <div class="card">
+                        <table class="table table-striped" style="width:100%;margin-bottom:0px">
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>SL</th>
+                                    <th>Tổng</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (cart_Temps == null)
+                                {
+                                    <tr>
+                                        <td>Chưa chọn mua sản phẩm</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    soluong = cart_Temps.Count;
+
+                                    foreach (var item in cart_Temps)
+                                    {
+                                        tamtinh += item._sum;
+                                        <tr>
+                                            <td>
+                                                <img src="~/Uploads/Products/@item._image_main" width="64" height="64" class="rounded-circle my-n1" alt="Avatar">
+                                                @item._product_name
+                                            </td>
+                                            <td>@item._price.ToString("n0")</td>
+                                            <td>@item._quantity</td>
+                                            <td>@item._sum.ToString("n0")</td>
+                                        </tr>
+                                    }
+                                }
+
+
+                                @*<tr>
+                                        <td><img src="img/avatars/avatar.jpg" width="32" height="32" class="rounded-circle my-n1" alt="Avatar"></td>
+                                        <td>Ashton Cox</td>
+                                        <td>Levitz Furniture</td>
+                                        <td>ashton@cox.com</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                    </tr>*@
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                        aria-expanded="false" aria-controls="collapseTwo">
+                                    2: Phương thức giao hàng
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="" class="" aria-labelledby="" data-parent="">
+                            <div class="card-body">
+                                <div class=" mb-4 d-flex ">
+                                    <input type="radio" name="hinhthucthanhtoan" value="tienmat" class="mr-3" checked />
+                                    <div class="Methodstyles__StyledMethod-sc-ya9clp-0 thanhtoan">
+                                        <img class="method-icon" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-method-cod.svg" width="32" height="32" alt="icon">
+                                        <div class="method-content">
+                                            <div class="method-content__title">
+                                                <span>Thanh toán tiền mặt khi nhận hàng</span>
+                                            </div>
+                                            <div class="method-content__sub-title method-content__sub-title--normal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" mb-4 d-flex ">
+                                    <input type="radio" name="hinhthucthanhtoan" value="viettelmoney" class="mr-3" />
+                                    <div class="Methodstyles__StyledMethod-sc-ya9clp-0 thanhtoan">
+                                        <img class="method-icon" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-method-viettelmoney.png" width="32" height="32" alt="icon">
+                                        <div class="method-content">
+                                            <div class="method-content__title">
+                                                <span>Thanh toán bằng Viettel Money</span>
+                                            </div>
+                                            <div class="method-content__sub-title method-content__sub-title--normal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" mb-4 d-flex">
+                                    <input type="radio" name="hinhthucthanhtoan" value="momo" class="mr-3" />
+                                    <div class="Methodstyles__StyledMethod-sc-ya9clp-0 thanhtoan">
+                                        <img class="method-icon" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-method-momo.svg" width="32" height="32" alt="icon">
+                                        <div class="method-content">
+                                            <div class="method-content__title"><span>Thanh toán bằng ví MoMo</span></div><div class="method-content__sub-title method-content__sub-title--normal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" mb-4 d-flex">
+                                    <input type="radio" name="hinhthucthanhtoan" value="zalopay" class="mr-3" />
+                                    <div class="Methodstyles__StyledMethod-sc-ya9clp-0 thanhtoan">
+                                        <img class="method-icon" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-method-zalo-pay.svg" width="32" height="32" alt="icon">
+                                        <div class="method-content">
+                                            <div class="method-content__title">
+                                                <span>Thanh toán bằng ví ZaloPay</span>
+                                            </div>
+                                            <div class="method-content__sub-title method-content__sub-title--normal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" mb-4 d-flex">
+                                    <input type="radio" name="hinhthucthanhtoan" value="vnpay" class="mr-3" />
+                                    <div class="Methodstyles__StyledMethod-sc-ya9clp-0 thanhtoan">
+                                        <img class="method-icon" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-method-vnpay.png" width="32" height="32" alt="icon">
+                                        <div class="method-content">
+                                            <div class="method-content__title">
+                                                <span>Thanh toán bằng VNPAY</span>
+                                            </div>
+                                            <div class="method-content__sub-title method-content__sub-title--normal">Quét Mã QR từ ứng dụng ngân hàng</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" mb-4 d-flex">
+                                    <input type="radio" name="hinhthucthanhtoan" value="atm" class="mr-3" />
+                                    <div class="Methodstyles__StyledMethod-sc-ya9clp-0 thanhtoan">
+                                        <img class="method-icon" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-method-credit.svg" width="32" height="32" alt="icon">
+                                        <div class="method-content">
+                                            <div class="method-content__title">
+                                                <span>Thanh toán bằng thẻ quốc tế Visa, Master, JCB</span>
+                                            </div>
+                                            <div class="method-content__sub-title method-content__sub-title--credit_card_list">
+                                                <div class="Methodstyles__StyledCardList-sc-ya9clp-1 eCwGJd">
+                                                    <img width="24" height="24" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-credit-type-tiki-card.svg" alt="tikicard">
+                                                    <img width="24" height="24" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-visa.png" alt="visa">
+                                                    <img width="24" height="24" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-credit-type-mastercard.svg?v=1" alt="mastercard">
+                                                    <img width="24" height="24" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/icon-payment-credit-type-jcb.svg" alt="jcb">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @*<button class="btn theme-btn--dark1 btn--md text-capitalize">
+            Xác nhận
+        </button>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse"
+                                        data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <span>3</span> Phương thức giao hàng
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="" class="" aria-labelledby="" data-parent="">
+                            <div class="card-body">
+                                <div class="delivery-options-list">
+                                    <form>
+                                        <div class="delivery-option">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="row align-items-center" style="margin-left:0%">
+                                                        <div class="col-sm-1">
+                                                            <div class="">
+                                                                <div class="">
+                                                                    <input type="checkbox" id="check_giaohangnhanh" name="check_giaohangnhanh">
+                                                                    <label id="pull-up" for="test3"> </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-11 delivery-option-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-sm-5 col-12">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col-3">
+                                                                            <img src="~/assets/img/icon/10.jpg"
+                                                                                 alt="My carrier">
+                                                                        </div>
+                                                                        <div class="col-9">
+                                                                            <span class="carrier-name">
+                                                                                Giao hàng siêu nhanh
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12">
+                                                                    <span class="carrier-delay">
+                                                                        Nhận trong ngày
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-sm-3 col-12">
+                                                                    <span class="carrier-price">+ 50.000 VNĐ</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="order-options">
+                                            <div id="delivery" class="text-right">
+                                                <label class="text-left d-block">
+                                                    Yêu cầu khi giao hàng
+                                                </label>
+                                                <textarea class="form-control mt-2 mb-4" name="notes" id="notes"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="width:100%;text-align:center;">
+                            <div class="filter-check-box">
+                                <input type="checkbox" id="20828" required="">
+                                <label class="checkout" for="20828">Xác nhận phương thức thanh toán</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card">
+                        <button class="btn theme-btn--dark1 btn--md text-capitalize" name="MUA" id="MUA">
+                            MUA
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-30">
+                <ul class="list-group cart-summary rounded-0">
+                    @{
+                        if (user != null)
+                        {
+
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <ul style="width:100%;">
+                                    <li style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                        <p style=" color: rgb(128, 128, 137); font-weight: normal; margin: 0px;">Giao tới</p>
+                                        <a href="#" style="color: rgb(11, 116, 229); text-decoration: none;"> Thay đổi</a>
+                                    </li>
+                                    <li style="display: flex; -webkit-box-align: center; align-items: center; color: rgb(56, 56, 61); margin-bottom: 2px; font-weight: 600;">
+                                        <p>@user._username</p>
+                                        <i style="display: block; width: 1px; height: 20px; background-color: rgb(235, 235, 240); margin: 0px 8px;"></i>
+                                        <p>@user._phone</p>
+                                    </li>
+                                    <li>
+                                        <p style=" color: rgb(0, 171, 86); background-color: rgb(239, 255, 244);width:fit-content;">Nhà: </p>
+                                    </li>
+                                    <li><div class="cut-text" style="width:100%">@user._address</div></li>
+                                </ul>
+                            </li>
+                        }
+                    }
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <ul class="" style="width:100%">
+                            <li style="justify-content:space-between;display:flex">
+                                <p>@soluong sản phẩm</p>
+                                <p>@tamtinh.ToString("n0") VND</p>
+                            </li>
+
+                            <li style=" color: rgb(11, 116, 229); font-size: 13px; line-height: 20px; cursor: pointer;">
+                                <svg class="coupon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.2803 14.7803L14.7803 10.2803C15.0732 9.98744 15.0732 9.51256 14.7803 9.21967C14.4874 8.92678 14.0126 8.92678 13.7197 9.21967L9.21967 13.7197C8.92678 14.0126 8.92678 14.4874 9.21967 14.7803C9.51256 15.0732 9.98744 15.0732 10.2803 14.7803Z" fill="#0B74E5"></path><path d="M10.125 10.5C10.7463 10.5 11.25 9.99632 11.25 9.375C11.25 8.75368 10.7463 8.25 10.125 8.25C9.50368 8.25 9 8.75368 9 9.375C9 9.99632 9.50368 10.5 10.125 10.5Z" fill="#0B74E5"></path><path d="M15 14.625C15 15.2463 14.4963 15.75 13.875 15.75C13.2537 15.75 12.75 15.2463 12.75 14.625C12.75 14.0037 13.2537 13.5 13.875 13.5C14.4963 13.5 15 14.0037 15 14.625Z" fill="#0B74E5"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M3.75 5.25C3.33579 5.25 3 5.58579 3 6V9.75C3 10.1642 3.33579 10.5 3.75 10.5C4.61079 10.5 5.25 11.1392 5.25 12C5.25 12.8608 4.61079 13.5 3.75 13.5C3.33579 13.5 3 13.8358 3 14.25V18C3 18.4142 3.33579 18.75 3.75 18.75H20.25C20.6642 18.75 21 18.4142 21 18V14.25C21 13.8358 20.6642 13.5 20.25 13.5C19.3892 13.5 18.75 12.8608 18.75 12C18.75 11.1392 19.3892 10.5 20.25 10.5C20.6642 10.5 21 10.1642 21 9.75V6C21 5.58579 20.6642 5.25 20.25 5.25H3.75ZM4.5 9.08983V6.75H19.5V9.08983C18.1882 9.41265 17.25 10.5709 17.25 12C17.25 13.4291 18.1882 14.5874 19.5 14.9102V17.25H4.5V14.9102C5.81181 14.5874 6.75 13.4291 6.75 12C6.75 10.5709 5.81181 9.41265 4.5 9.08983Z" fill="#0B74E5"></path></svg>
+                                <span>Chọn hoặc nhập Khuyến mãi khác</span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <ul class="">
+                            <li>Phí vận chuyển</li>
+                            <li>Tổng</li>
+                        </ul>
+                        <ul class="amount">
+                            <li>@shipping.ToString("n0") VND</li>
+                            <li>
+                                @{
+                                    total = tamtinh + shipping;
+                                }
+                                <span style=" color: rgb(254, 56, 52); font-size: 22px; font-weight: 400; text-align: right;">  @total.ToString("n0") đ</span>
+
+                            </li>
+                        </ul>
+                    </li>
+                    @*<li class="list-group-item text-center">
+                            <button class="btn theme-btn--dark1 btn--md">Proceed to checkout</button>
+                        </li>*@
+                </ul>
+
+                <div class="delivery-info mt-20">
+                    <ul>
+                        <li>
+                            <img src="~/assets/img/icon/10.png" alt="icon"> <span>An toàn.</span>
+                        </li>
+                        <li>
+                            <img src="~/assets/img/icon/11.png" alt="icon"><span> Nhanh chóng.</span>
+                        </li>
+                        <li class="mb-0">
+                            <img src="~/assets/img/icon/12.png" alt="icon"><span> Rễ dàng đổi trả.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- product tab end -->
+@section scripts{
+
+    <script>
+        $(document).on('click', "button[name='MUA']", function () {
+            var _checkgiaohang = "giaohangthuong";
+            $('input[name="check_giaohangnhanh"]:checked').each(function () {
+                _checkgiaohang = "giaohangnhanh";
+            });
+            // Yêu cầu người dùng
+            var _notes = $("#notes").val();
+            var _radioValue = $("input[name='hinhthucthanhtoan']:checked").val();
+            if (confirm("Xác nhận mua")) {
+                $.ajax({
+                    url: '/Home/Xuly_Transaction',
+                    type: 'post',
+                    data: {
+                        checkgiaohang: _checkgiaohang,
+                        note: _notes,
+                        hinhthucgiaohang:_radioValue
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                           window.location = data.url;
+                            //window.location = response.url;
+                            console.log(data.msg);
+                            console.log(data._lis_transactions);
+                            console.log(data._list_order);
+                        } else {
+                            alert("Loi");
+                            console.log(data.msg);
+                        }
+                    }
+                })
+            }
+        });
+
+    </script>
+
+
+
+
+}

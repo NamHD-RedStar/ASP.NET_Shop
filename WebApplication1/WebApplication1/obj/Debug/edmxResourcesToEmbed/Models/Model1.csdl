@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JP_ShopThoitrangModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="admin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="catalog">
+    <Key>
+      <PropertyRef Name="catalog_id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="catalog_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="catalog_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="catalog_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="products" Relationship="Self.fk_products_catalogs" FromRole="catalogs" ToRole="products" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="product_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="catalog_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="product_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="image_main" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="image_sub" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="price" Type="Int32" />
+    <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="discount" Type="Int32" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="quantity_sold" Type="Int32" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="created" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="catalog" Relationship="Self.fk_products_catalogs" FromRole="products" ToRole="catalogs" />
+    <NavigationProperty Name="orders" Relationship="JP_ShopThoitrangModel.fk_orders_products" FromRole="product" ToRole="order" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="transaction">
+    <Key>
+      <PropertyRef Name="transactions_id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="transactions_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="phonenumber" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="gmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="total_price" Type="Int32" />
+    <Property Name="payment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="payment_info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="security" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="created" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="orders" Relationship="JP_ShopThoitrangModel.fk_orders_catalogs" FromRole="transaction" ToRole="order" />
+    <Property Name="shipping" Type="Int32" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="gmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="position" Type="Int32" />
+    <Property Name="created" Type="DateTime" Precision="0" />
+  </EntityType>
+  <Association Name="fk_products_catalogs">
+    <End Role="catalogs" Type="Self.catalog" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="products" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="catalogs">
+        <PropertyRef Name="catalog_id" />
+      </Principal>
+      <Dependent Role="products">
+        <PropertyRef Name="catalog_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JP_ShopThoitrangEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="admins" EntityType="Self.admin" />
+    <EntitySet Name="catalogs" EntityType="Self.catalog" />
+    <EntitySet Name="products" EntityType="Self.product" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="transactions" EntityType="Self.transaction" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="fk_products_catalogs" Association="Self.fk_products_catalogs">
+      <End Role="catalogs" EntitySet="catalogs" />
+      <End Role="products" EntitySet="products" />
+    </AssociationSet>
+    <EntitySet Name="orders" EntityType="JP_ShopThoitrangModel.order" />
+    <AssociationSet Name="fk_orders_catalogs" Association="JP_ShopThoitrangModel.fk_orders_catalogs">
+      <End Role="transaction" EntitySet="transactions" />
+      <End Role="order" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="fk_orders_products" Association="JP_ShopThoitrangModel.fk_orders_products">
+      <End Role="product" EntitySet="products" />
+      <End Role="order" EntitySet="orders" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="transactions_id" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="product_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="total_price" Type="Int32" />
+    <Property Name="data" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Int32" />
+    <NavigationProperty Name="transaction" Relationship="JP_ShopThoitrangModel.fk_orders_catalogs" FromRole="order" ToRole="transaction" />
+    <NavigationProperty Name="product" Relationship="JP_ShopThoitrangModel.fk_orders_products" FromRole="order" ToRole="product" />
+  </EntityType>
+  <Association Name="fk_orders_catalogs">
+    <End Type="JP_ShopThoitrangModel.transaction" Role="transaction" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="JP_ShopThoitrangModel.order" Role="order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="transaction">
+        <PropertyRef Name="transactions_id" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="transactions_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_orders_products">
+    <End Type="JP_ShopThoitrangModel.product" Role="product" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="JP_ShopThoitrangModel.order" Role="order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="product_id" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,74 @@
+﻿@model WebApplication1.Models.catalog
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div>
+    @Html.ActionLink("Back", "Index")
+</div>
+<h2>Tạo mới</h2>
+
+@using (Html.BeginForm("Create", "catalogs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>catalog</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.catalog_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.catalog_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.catalog_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.catalog_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.catalog_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.catalog_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.catalog_image, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label class="form-label" for="inputLastName">Ảnh đại diện</label>
+                    <div class="col-md-10">
+                        <input class="ql-image" type="file" name="img" id="img" value="" onchange="ImagesFileAsURL()" />
+                    </div>
+                    <div class="style_displayImg" id="displayImg"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    function ImagesFileAsURL() {
+        var fileSelected = document.getElementById('img').files;
+        if (fileSelected.length > 0) {
+            var fileToLoad = fileSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (fileLoaderEvent) {
+                var srcData = fileLoaderEvent.target.result;
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+                document.getElementById('displayImg').innerHTML = newImage.outerHTML;
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+</script>

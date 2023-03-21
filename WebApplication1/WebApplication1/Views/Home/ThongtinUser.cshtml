@@ -1,0 +1,169 @@
+﻿@using WebApplication1.Models;
+@{
+    ViewBag.Title = "ThongtinUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var a = Session["user"] as user_temp;
+}
+<section class="check-out-section pt-40 pb-50">
+    <div class="container" style="max-width:1440px">
+        <div class="row" style="justify-content:center">
+            <div class="col-lg-3 col-12 mb-30">
+                <div class="myaccount-tab-menu nav" role="tablist">
+                    <a href="#dashboad" class="active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Thông tin tài khoản
+                    </a>
+
+                    <a href="#orders">
+                        <i class="fa fa-cart-arrow-down"></i>
+                        Sản phẩm mua sau
+                    </a>
+
+                    <a href="#download">
+                        <i class="fas fa-cloud-download-alt"></i>
+                        Thông báo của tôi
+                    </a>
+
+                    <a href="">
+                        <i class="fa fa-credit-card"></i>
+                        Thông tin thanh toán
+                    </a>
+
+                    <a href="">
+                        <i class="fa fa-map-marker"></i>
+                        Sổ địa chỉ
+                    </a>
+
+                    <a href="~/Home/Order">
+                        <i class="fa fa-user"></i>
+                        Quản lý đơn hàng
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-8 mb-30">
+                <div class="tab-content" id="myaccountContent">
+                    <!-- Single Tab Content Start -->
+                    <div class="tab-pane fade active show" id="dashboad" role="tabpanel">
+                        <div class="myaccount-content">
+                            @if (Session["user"] != null)
+                            {
+
+                                <div id="accordion">
+                                    <div class="row">
+                                        <div class="col-xl-5">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title mb-0" style="">Thông tin người dùng</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row g-0">
+                                                        <div class="col-sm-3 col-xl-12 col-xxl-3 text-center" style="display:block;width:100%">
+                                                            <img src="~/Uploads/ImgNull/null.png" width="128" height="128" class="rounded-circle mb-2" alt="Angelica Ramos">
+                                                            <h5 class="card-title mb-0" style="font-family: Roboto,Helvetica,Arial,sans-serif;">@a._username </h5>
+                                                        </div>
+                                                    </div>
+
+                                                    <table class="table table-sm mt-2 mb-4">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td> <i class="align-middle me-2 fas fa-fw fa-mobile-alt"></i>@a._phone</td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td><i class="align-middle me-2 fas fa-fw fa-map-marker-alt"></i>@a._address</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><div style="display: flex; align-items: center;"><i class="align-middle me-2 fas fa-fw fa-envelope "></i><p style=" width: 203px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">@a._gmail</p></div></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-7">
+                                            <div class="myaccount-content">
+                                                <div class="account-details-form">
+                                                    @using (Html.BeginForm("ChangePassword", "Home", FormMethod.Post))
+                                                    {
+                                                        <input type="hidden" name="id" id="id" value="@a._gmail" />
+
+                                                        <div class="row">
+                                                            <div class="col-12 mb-30">
+
+                                                                <h4>Đổi mật khẩu </h4><br />
+                                                                <p style="color:forestgreen">@TempData["thongbao_password"]</p>
+
+                                                            </div>
+
+                                                            <div class="col-12 mb-30">
+                                                                <input id="currentPassword" name="currentPassword" placeholder="Nhập mật khẩu cũ" type="password">
+                                                            </div>
+
+                                                            <div class="col-lg-6 col-12 mb-30">
+                                                                <input id="newPassword" name="newPassword" placeholder="Nhập mật khẩu mới" type="password">
+                                                            </div>
+
+                                                            <div class="col-lg-6 col-12 mb-30">
+                                                                <input id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu mới" type="password">
+                                                            </div>
+
+                                                            <div class="col-12 mb-30">
+                                                                <button type="submit" class="btn theme-btn--dark1 btn--md">
+                                                                    Lưu Thay Đổi
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                               
+
+                                                <div class="account-details-form ">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-12 mb-30">
+                                                            <input id="newusername" name="newusername" placeholder="Họ tên" type="text">
+                                                        </div>
+
+                                                        <div class="col-lg-6 col-12 mb-30">
+                                                            <input id="newphone" name="newphone" placeholder="Số điện thoại" type="text">
+                                                        </div>
+
+                                                        <div class="col-12 mb-30">
+                                                            <input id="newaddress" name="newaddress" placeholder="Địa chỉ" type="text">
+
+                                                        </div>
+
+                                                        <div class="col-12 mb-30">
+                                                            <input id="newgmail" name="newgmail" placeholder="Gmail" type="email">
+                                                        </div>
+                                                        <div class="col-12 mb-30">
+                                                            <button class="btn theme-btn--dark1 btn--md">
+                                                                Lưu Thay Đổi
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

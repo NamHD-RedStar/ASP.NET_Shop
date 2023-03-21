@@ -1,0 +1,486 @@
+﻿@using WebApplication1.Models;
+@model IEnumerable<WebApplication1.Models.product>
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //ViewBag.transactions = db.transactions.ToList();
+    //ViewBag.orders = db.orders.ToList();
+    //ViewBag.products = db.products.ToList();
+    List<product> product_t = ViewBag.products;
+    var a = Session["user"] as user_temp;
+  
+}
+<style>
+    .myaccount-tab-menu a {
+        font-family: Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    .thanhtoan {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .method-icon {
+        margin-right: 12px;
+        object-fit: contain;
+    }
+
+    .chitiet_donhang {
+        width: 100%;
+        min-height: 103px;
+        max-height: 390px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: whitesmoke;
+    }
+
+
+    .hBZYMQ {
+        cursor: pointer;
+    }
+
+        .hBZYMQ .product {
+            display: flex;
+            flex-direction: row;
+            padding: 16px 0px;
+            border-bottom: 1px solid rgb(235, 235, 240);
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+        }
+
+            .hBZYMQ .product .detail {
+                display: flex;
+            }
+
+            .hBZYMQ .product .product-img {
+                flex-shrink: 0;
+                width: 80px;
+                height: 80px;
+                border-radius: 4px;
+                border: 0.5px solid rgb(238, 238, 238);
+                background-repeat: no-repeat;
+                background-size: 90%;
+                background-position: center center;
+                position: relative;
+            }
+
+                .hBZYMQ .product .product-img .quantity {
+                    font-size: 12px;
+                    line-height: 16px;
+                    font-weight: 400;
+                    color: rgb(128, 128, 137);
+                    text-align: center;
+                    position: absolute;
+                    width: 28px;
+                    height: 28px;
+                    background-color: rgb(235, 235, 240);
+                    display: flex;
+                    -webkit-box-pack: center;
+                    justify-content: center;
+                    -webkit-box-align: center;
+                    align-items: center;
+                    right: 0px;
+                    bottom: 0px;
+                    border-top-left-radius: 10px;
+                }
+
+            .hBZYMQ .product .product-info {
+                margin: 0px 12px;
+                display: flex;
+                flex-direction: column;
+            }
+
+                .hBZYMQ .product .product-info .product-name {
+                    margin-bottom: 6px;
+                }
+
+                .hBZYMQ .product .product-info .store {
+                    margin-top: 4px;
+                }
+
+                    .hBZYMQ .product .product-info .store span {
+                        color: rgb(128, 128, 137);
+                        font-size: 12px;
+                        font-weight: 400;
+                        line-height: 16px;
+                    }
+
+            .hBZYMQ .product .price {
+                min-width: 120px;
+                -webkit-box-pack: end;
+                justify-content: flex-end;
+                display: flex;
+            }
+
+        .hBZYMQ span {
+            color: rgb(56, 56, 61);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+
+
+    .hBVEFq {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top: 12px;
+        width: 100%;
+    }
+
+        .hBVEFq .total-money {
+            font-size: 17px;
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+            .hBVEFq .total-money .title {
+                font-weight: 300;
+                color: rgb(128, 128, 137);
+                margin-right: 8px;
+            }
+
+            .hBVEFq .total-money .total {
+                font-weight: 400;
+                color: rgb(56, 56, 61);
+            }
+
+        .hBVEFq .button-group {
+            display: flex;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+        }
+
+            .hBVEFq .button-group div {
+                padding: 12px 8px;
+                height: 36px;
+                border-radius: 4px;
+                border: 1px solid rgb(11, 116, 229);
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.4;
+                color: rgb(11, 116, 229);
+                display: flex;
+                -webkit-box-pack: center;
+                justify-content: center;
+                -webkit-box-align: center;
+                align-items: center;
+                cursor: pointer;
+                margin-left: 8px;
+            }
+
+    .ekuyi {
+        background: rgb(255, 255, 255);
+        border-radius: 4px;
+        font-size: 13px;
+        margin-bottom: 20px;
+        padding: 16px;
+    }
+
+    .hBsvqt {
+        border-bottom: 1px solid rgb(235, 235, 240);
+        padding-bottom: 12px;
+        color: rgb(128, 128, 137);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+    }
+
+        .hBsvqt .main-status::before {
+            content: "";
+            display: block;
+            background: url(https://frontend.tikicdn.com/_desktop-next/static/img/account/delivery_done.png) center center / 20px 20px no-repeat;
+            width: 20px;
+            height: 20px;
+            float: left;
+            margin: 0px 6px 0px 0px;
+        }
+</style>
+<!-- product tab start -->
+
+<section class="check-out-section pt-40 pb-50">
+    <div class="container" style="max-width:1440px">
+        <div class="row" style="justify-content:center">
+            <div class="col-lg-3 col-12 mb-30">
+                <div class="myaccount-tab-menu nav" role="tablist">
+                    <a href="~/Home/ThongtinUser">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Thông tin tài khoản
+                    </a>
+
+                    <a href="#orders" data-toggle="tab">
+                        <i class="fa fa-cart-arrow-down"></i>
+                        Sản phẩm mua sau
+                    </a>
+
+                    <a href="#download" data-toggle="tab">
+                        <i class="fas fa-cloud-download-alt"></i>
+                        Thông báo của tôi
+                    </a>
+
+                    <a href="#payment-method" data-toggle="tab">
+                        <i class="fa fa-credit-card"></i>
+                        Thông tin thanh toán
+                    </a>
+
+                    <a href="#address-edit" data-toggle="tab">
+                        <i class="fa fa-map-marker"></i>
+                        Sổ địa chỉ
+                    </a>
+
+                    <a href="#account-info" data-toggle="tab" class="active">
+                        <i class="fa fa-user"></i>
+                        Quản lý đơn hàng
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-8 mb-30">
+                <div class="tab-content" id="myaccountContent">
+                    <!-- Single Tab Content Start -->
+                    <div class="tab-pane fade" id="dashboad" role="tabpanel">
+                        <div class="myaccount-content">
+                            @{
+                                if (Session["user"] != null)
+                                {
+
+                                    <h3>Dashboard</h3>
+
+                                    <div class="welcome mb-20">
+                                        <p>
+                                            Hello, <strong>Alex Tuntuni</strong> (If Not <strong>Tuntuni !</strong><a href="login-register.html" class="logout"> Logout</a>)
+                                        </p>
+                                    </div>
+
+                                    <p class="mb-0">
+                                        From your account dashboard. you can easily check &amp; view your
+                                        recent orders, manage your shipping and billing addresses and edit your
+                                        password and account details.
+                                    </p>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <!-- Single Tab Content End -->
+                    <!-- Single Tab Content Start -->
+                    <div class="tab-pane fade" id="orders" role="tabpanel">
+
+                    </div>
+                    <!-- Single Tab Content End -->
+                    <!-- Single Tab Content Start -->
+                    <div class="tab-pane fade" id="download" role="tabpanel">
+                        <div class="myaccount-content">
+                            <h3>Downloads</h3>
+
+                            <div class="myaccount-table table-responsive text-center">
+                                <table class="table table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Date</th>
+                                            <th>Expire</th>
+                                            <th>Download</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>Mostarizing Oil</td>
+                                            <td>Aug 22, 2018</td>
+                                            <td>Yes</td>
+                                            <td><a href="#" class="ht-btn black-btn">Download File</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Katopeno Altuni</td>
+                                            <td>Sep 12, 2018</td>
+                                            <td>Never</td>
+                                            <td><a href="#" class="ht-btn black-btn">Download File</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Tab Content End -->
+                    <!-- Single Tab Content Start -->
+                    <div class="tab-pane fade" id="payment-method" role="tabpanel">
+                        <div class="myaccount-content">
+                            <h3>Payment Method</h3>
+
+                            <p class="saved-message">You Can't Saved Your Payment Method yet.</p>
+                        </div>
+                    </div>
+                    <!-- Single Tab Content End -->
+                    <!-- Single Tab Content Start -->
+                    <div class="tab-pane fade" id="address-edit" role="tabpanel">
+                        <div class="myaccount-content">
+                            <h3>Billing Address</h3>
+
+                            <address>
+                                <p><strong>Alex Tuntuni</strong></p>
+                                <p>
+                                    1355 Market St, Suite 900 <br>
+                                    San Francisco, CA 94103
+                                </p>
+                                <p>Mobile: (123) 456-7890</p>
+                            </address>
+
+                            <a href="#" class="ht-btn black-btn d-inline-block edit-address-btn">
+                                <i class="fa fa-edit"></i>Edit Address
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Single Tab Content End -->
+                    <!-- Single Tab Content Start -->
+                    <div class="tab-pane fade active show" id="account-info" role="tabpanel">
+                        <div id="accordion">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    @foreach (var item in ViewBag.transactions)
+                                    {
+
+                                        int _shipping = 20000;
+
+                                        if (item.shipping == 1)
+                                        {
+                                            _shipping = 50000;
+                                        }
+                                        int toltal = item.total_price + _shipping;
+
+                                        <div class="card">
+                                            <div class="card-header pb-0">
+                                                <div class="card-actions float-end">
+                                                    <div class="dropdown show">
+                                                        <a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+                                                            <i class="align-middle" data-feather="more-horizontal"></i>
+                                                        </a>
+
+                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                            <a class="dropdown-item" href="#">Action</a>
+                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h5 class="card-title mb-0">Ngày mua:  @item.created</h5>
+                                            </div>
+                                            <div class="card">
+                                                <div class="ekuyi">
+                                                @if (item.status.ToString() == "0")
+                                                    {
+                                                        <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                            <span class="main-status text-info" style="color:red">Chờ Xác Nhận</span>
+                                                        </div>
+                                                    }
+                                                    else if (item.status.ToString() == "1")
+                                                    {
+                                                        <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                            <span class="main-status text-primary" style="color:red">Đang Vận Chuyển</span>
+                                                        </div>
+                                                    }
+                                                    else if (item.status.ToString() == "-1")
+                                                    {
+                                                        <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                            <span class="main-status text-secondary" style="color:red">Đã Hủy</span>
+                                                        </div>
+                                                    }
+                                                    else if (item.status.ToString() == "2")
+                                                    {
+                                                        <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                            <span class="main-status text-success" style="color:red">Giao Thành Công</span>
+                                                        </div>
+                                                    }
+                                                    else if (item.status.ToString() == "-2")
+                                                    {
+                                                        <div color="#808089" class="styles__OrderHeader-sc-1vf2n1c-1 hBsvqt">
+                                                            <span class="main-status text-danger" style="color:red">Giao Thất Bại</span>
+                                                        </div>
+                                                    }
+
+                                                    <div class="chitiet_donhang">
+                                                        @foreach (var orders_item in ViewBag.orders)
+                                                        {
+                                                            if (orders_item.transactions_id == item.transactions_id)
+                                                            {
+                                                                var product_item = product_t.Where(s => s.product_id == orders_item.product_id).FirstOrDefault();
+
+                                                                <div class="styles__StyledOrderInfo-sc-1upbws9-0 hBZYMQ">
+                                                                    <div>
+                                                                        <div class="product">
+                                                                            <div class="detail">
+
+                                                                                <div class="product-img" style="background-image: url('@Url.Content("~/Uploads/Products/@item.image_main")')">
+                                                                                    <img class="product-img" src="~/Uploads/Products/@product_item.image_main" alt="img">
+                                                                                    <span class="quantity">@orders_item.quantity</span>
+                                                                                </div>
+                                                                                <div class="product-info">
+                                                                                    <p class="product-name"> @product_item.product_name</p>
+                                                                                    <div class="store">
+                                                                                        <span>ShopNamJP</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="price">
+                                                                                <span>@orders_item.total_price.ToString("N0") ₫</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="styles__OrderFooter-sc-1vf2n1c-2 hBVEFq">
+                                                        <div class="total-money">
+                                                            <div class="title">Tổng tiền:</div>
+                                                            <div class="total">@toltal.ToString("N0") ₫</div>
+                                                        </div>
+                                                        <div class="button-group">
+                                                            @if (item.status.ToString() == "1")
+                                                            {
+                                                                <a href="@Url.Action("CheckNhanHang", "Home", new { id = item.transactions_id, check = "400" })"> <div>Đã nhận hàng </div></a>
+                                                            }
+                                                            else if (item.status.ToString() == "2")
+                                                            {
+                                                                <a href="@Url.Action("CheckNhanHang", "Home", new { id = item.transactions_id, check = "500" })"> <div style="border: 1px solid rgb(255 4 4); color: rgb(255 4 4) ">Chưa nhận được hàng</div></a>
+                                                            }
+                                                            else if (item.status.ToString() == "0")
+                                                            {
+                                                                <a href="@Url.Action("CheckNhanHang", "Home", new { id = item.transactions_id, check = "300" })"> <div style="border: 1px solid rgb(255 4 4); color: rgb(255 4 4) ">Hủy đơn hàng</div></a>
+                                                            }
+                                                            else if (item.status.ToString() == "-1")
+                                                            {
+                                                                <a href="@Url.Action("CheckNhanHang", "Home", new { id = item.transactions_id, check = "000" })"> <div >Mua lại</div></a>
+
+                                                            }
+
+                                                            <a href="/Home/Detail_Order/@item.transactions_id"> <div>Xem chi tiết</div></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    }
+                                </div>
+                                </div>
+                            </div>
+                    </div>
+                    <!-- Single Tab Content End -->
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
+

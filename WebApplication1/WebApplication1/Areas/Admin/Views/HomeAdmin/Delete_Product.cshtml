@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = "Delete_Product";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model WebApplication1.Models.product
+
+<style>
+    .cke_top {
+        display: none;
+    }
+
+    .cke_bottom {
+        display: none;
+    }
+
+    .cke_contents {
+        min-height: 500px;
+    }
+</style>
+
+<script src="~/Areas/Admin/Data/ckeditor/ckeditor.js"></script>
+<main class="cc">
+    <div class="container-fluid p-0">
+
+        <div class="mb-3">
+            <h1 class="h3 d-inline align-middle">Thông tin sản phẩm</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-9 col-xl-10">
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-outline-primary" })
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-9 col-xl-10">
+                <div class="tab-content">
+
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <label class="form-label">Tên sản phẩm</label>
+                                        <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Tên sản phẩm" value="@Model.product_name" readonly>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label class="form-label">Giá bán</label>
+                                            <input type="number" class="form-control" id="price" name="price" value="@Model.price" readonly>
+                                        </div>
+                                        <div class="mb-3 col-md-5">
+                                            <label class="form-label">Số lượng</label>
+                                            <input type="number" class="form-control" id="quantity" name="quantity" value="@Model.quantity" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label class="form-label">Đã bán</label>
+                                            <input type="number" class="form-control" id="price" name="price" value="@Model.quantity_sold" readonly>
+                                        </div>
+                                        <div class="mb-3 col-md-5">
+                                            <label class="form-label">Thời gian tạo</label>
+                                            <input type="text" class="form-control" id="quantity" name="quantity" value="@Model.created" readonly>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        @*<img alt="" src="img/avatars/avatar.jpg" class="rounded-circle img-responsive mt-2"
+                                                 width="128" height="128" />
+                                            <div class="mt-2">
+                                                <span class="btn btn-primary"><i class="fas fa-upload"></i> Upload</span>
+                                            </div>*@
+                                        <div class="mb-3">
+                                            <label class="form-label">Ảnh sản phẩm</label>
+                                            <br />
+                                            <div class="style_displayImg" id="displayImg">
+                                                <img src="~/Uploads/Products/@Model.image_main" alt="Alternate Text" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3">
+                                    <label class="form-label" for="content">Thông tin chi tiết</label>
+
+                                    <textarea rows="4" class="form-control" id="content" name="content"
+                                              placeholder="Chi tiết sản phẩm" readonly>@Model.content</textarea>
+                                    <script type="text/javascript" lang="javascript">
+                                        CKEDITOR.replace("content");
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+
+    </div>
+}
+<script type="text/javascript">
+
+    function ImagesFileAsURL() {
+        var fileSelected = document.getElementById('img').files;
+        if (fileSelected.length > 0) {
+            var fileToLoad = fileSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (fileLoaderEvent) {
+                var srcData = fileLoaderEvent.target.result;
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+                document.getElementById('displayImg').innerHTML = newImage.outerHTML;
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+
+    //
+
+    //// nếu chọn đơn hàng đã giao thì hẩn đang giao
+    //document.getElementById("hien").onclick = function () {
+    //    document.getElementById("hiddendiv").style.display = 'block';// hiện
+    //};
+</script>
+
+
+
+

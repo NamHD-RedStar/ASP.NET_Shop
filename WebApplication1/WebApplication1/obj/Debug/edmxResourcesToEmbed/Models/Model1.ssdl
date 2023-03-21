@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JP_ShopThoitrangModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="admins">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="catalogs">
+    <Key>
+      <PropertyRef Name="catalog_id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="catalog_id" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="catalog_name" Type="nvarchar(max)" />
+    <Property Name="catalog_image" Type="text" />
+  </EntityType>
+  <EntityType Name="orders">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="transactions_id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="product_id" Type="varchar" MaxLength="100" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="total_price" Type="int" />
+    <Property Name="data" Type="text" />
+    <Property Name="status" Type="int" />
+  </EntityType>
+  <EntityType Name="products">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product_id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="catalog_id" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="product_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="image_main" Type="text" />
+    <Property Name="image_sub" Type="text" />
+    <Property Name="price" Type="int" />
+    <Property Name="content" Type="nvarchar(max)" />
+    <Property Name="discount" Type="int" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="quantity_sold" Type="int" />
+    <Property Name="status" Type="int" />
+    <Property Name="created" Type="smalldatetime" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="transactions">
+    <Key>
+      <PropertyRef Name="transactions_id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="transactions_id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="status" Type="int" />
+    <Property Name="user_id" Type="int" />
+    <Property Name="username" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="phonenumber" Type="varchar" MaxLength="13" />
+    <Property Name="gmail" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="total_price" Type="int" />
+    <Property Name="payment" Type="varchar" MaxLength="50" />
+    <Property Name="payment_info" Type="text" />
+    <Property Name="message" Type="nvarchar(max)" />
+    <Property Name="security" Type="varchar" MaxLength="100" />
+    <Property Name="created" Type="smalldatetime" />
+    <Property Name="shipping" Type="int" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="gmail" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="username" Type="nvarchar(max)" />
+    <Property Name="address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="13" />
+    <Property Name="avatar" Type="text" />
+    <Property Name="position" Type="int" />
+    <Property Name="created" Type="smalldatetime" />
+  </EntityType>
+  <Association Name="fk_orders_catalogs">
+    <End Role="transactions" Type="Self.transactions" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="orders" Type="Self.orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="transactions">
+        <PropertyRef Name="transactions_id" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="transactions_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_orders_products">
+    <End Role="products" Type="Self.products" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="orders" Type="Self.orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="product_id" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_products_catalogs">
+    <End Role="catalogs" Type="Self.catalogs" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="products" Type="Self.products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="catalogs">
+        <PropertyRef Name="catalog_id" />
+      </Principal>
+      <Dependent Role="products">
+        <PropertyRef Name="catalog_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JP_ShopThoitrangModelStoreContainer">
+    <EntitySet Name="admins" EntityType="Self.admins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="catalogs" EntityType="Self.catalogs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="transactions" EntityType="Self.transactions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_orders_catalogs" Association="Self.fk_orders_catalogs">
+      <End Role="transactions" EntitySet="transactions" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="fk_orders_products" Association="Self.fk_orders_products">
+      <End Role="products" EntitySet="products" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="fk_products_catalogs" Association="Self.fk_products_catalogs">
+      <End Role="catalogs" EntitySet="catalogs" />
+      <End Role="products" EntitySet="products" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

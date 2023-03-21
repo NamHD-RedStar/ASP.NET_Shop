@@ -1,0 +1,343 @@
+﻿@*@using WebApplication1.Models;
+    @model List<Carts>*@
+@{
+    ViewBag.Title = "viewCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //int tamtinh = 0;
+}
+
+@using (Html.BeginForm())
+{
+    <section class="whish-list-section theme1 pt-10 pb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 mb-30">
+                    <div class="table-responsive">
+                        <table id="tableSp" class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="text-center" scope="col">Ảnh sản phẩm</th>
+                                    <th class="text-center" scope="col">Tên sản phẩm</th>
+                                    <th class="text-center" scope="col">Giá</th>
+                                    <th class="text-center" scope="col">Sl</th>
+                                    <th class="text-center" scope="col">Thành tiền</th>
+                                    <th class="text-center" scope="col">action</th>
+                                    <th class="text-center" scope="col">Select</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbody">
+                              
+                             
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-5 mb-30">
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                                            aria-expanded="true" aria-controls="collapseOne">
+                                        Thông tin người dùng
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-parent="#accordion">
+                                <div class="card-body">
+                                    <form action="./assets/php/mail.php" class="personal-information">
+                                        <div class="order-asguest mt-2 mb-4">
+                                            <a href="#">Order as a guest</a> <span class="separator"></span>
+                                            <a class="gray" href="login.html">Sign in</a>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">
+                                                Social title
+                                            </label>
+                                            <div class="col-md-6">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="custom-radio">
+                                                        <input type="radio" id="test1" name="radio-group">
+                                                        <label for="test1">Mr</label>
+                                                    </div>
+                                                    <div class="custom-radio">
+                                                        <input type="radio" id="test2" name="radio-group">
+                                                        <label for="test2">Mrs</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="firstname" class="col-md-3 col-form-label">
+                                                First
+                                                name
+                                            </label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="firstname" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="lastname" class="col-md-3 col-form-label">last name</label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="lastname" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="email" class="col-md-3 col-form-label">Email</label>
+                                            <div class="col-md-6">
+                                                <input type="email" id="email" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="Password" class="col-md-3 col-form-label">Password</label>
+                                            <div class="col-md-6">
+                                                <div class="input-group mb-2 mr-sm-2">
+                                                    <input type="password" class="form-control" id="Password">
+                                                    <div class="input-group-prepend">
+                                                        <button type="button"
+                                                                class="input-group-text theme-btn--dark1 btn--md show-password">
+                                                            show
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>
+                                                    <span class="optional">
+                                                        Optional
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="birthdate" class="col-md-3 col-form-label">Birthdate</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="birthdate"
+                                                       placeholder="MM/DD/YYYY">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>
+                                                    <span class="optional">
+                                                        Optional
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6">
+                                                <div class="check-box-inner pt-0">
+                                                    <div class="filter-check-box">
+                                                        <input type="checkbox" id="20820">
+                                                        <label for="20820">Receive offers from our partners</label>
+                                                    </div>
+                                                    <div class="filter-check-box">
+                                                        <input type="checkbox" id="20821">
+                                                        <label for="20821">Sign up for our newsletter</label>
+                                                        <p class="pl-25">
+                                                            Be the First to Know. Sign up for
+                                                            newsletter
+                                                            today !
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="sign-btn text-right">
+                                                    <a href="#" class="btn theme-btn--dark1 btn--md">Continue</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-group cart-summary rounded-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <ul class="items">
+                                <li>1 item</li>
+                                <li>Shipping</li>
+                            </ul>
+                            <ul class="amount">
+                                <li>$11.90</li>
+                                <li>$7.00</li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <ul class="items">
+                                <li>Tạm tính</li>
+                                <li>Taxes</li>
+                            </ul>
+                            <ul class="amount">
+                                <li>tamtinh.ToString("N0")</li>
+                                <li>$0</li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item text-center">
+                            <button class="btn theme-btn--dark1 btn--md">Proceed to checkout</button>
+                        </li>
+                    </ul>
+
+                    <div class="delivery-info mt-20">
+                        <ul>
+                            <li>
+                                <img src="~/assets/img/icon/10.png" alt="icon"> Security policy (edit with Customer
+                                reassurance module)
+                            </li>
+                            <li>
+                                <img src="~/assets/img/icon/11.png" alt="icon"> Delivery policy (edit with Customer
+                                reassurance module)
+                            </li>
+                            <li class="mb-0">
+                                <img src="~/assets/img/icon/12.png" alt="icon"> Return policy (edit with Customer
+                                reassurance module)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <input type="submit" name="save" id="save" value="save" />
+}
+
+
+@section scripts{
+
+    <script>
+/*const { Doc } = require("../../Areas/Admin/Data/ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror");*/
+
+        $(document).ready(function () {
+            loadCart();
+        });
+        $(document).on('click', "button[name='deletecart']", function () {
+            let idcart = $(this).closest('tr').attr('id');
+            if (confirm("bạn có muốn xóa sản phẩm này")) {
+                $.ajax({
+                    url: '/Home/deleteCartItem',
+                    type: 'post',
+                    data: {
+                        id: idcart
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            loadCart();
+
+                        } else {
+                            alert(data.msg);
+                        }
+                    }
+                })
+            }
+        });
+        $(document).on('click', "button[name='updatecart']", function () {
+            let idcart = $(this).closest('tr').attr('id');
+            let quantity = $('#quantity').val().trim();
+            alert(idcart + "-" + quantity);
+            //if (confirm("Bạn muốn thay đổi không.")) {
+            //    $.ajax({
+            //        url: '/Home/updateCartItem',
+            //        type: 'post',
+            //        data: {
+            //            id: idcart,
+            //            quantity: quantity
+            //        },
+            //        success: function (data) {
+            //            if (data.code == 200) {
+            //                alert(data.msg);
+            //                loadCart();
+
+            //            } else {
+            //                alert(data.msg);
+            //            }
+            //        }
+            //    })
+            //}
+
+
+        });
+        function loadCart() {
+            $.ajax({
+                url: "/Home/loadCart",
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                    if (data.code == 200) {
+                        $.each(data.dssanpham, function (k, v) {
+                            let tr = '<tr id = "' + v.Product_id +'">'
+                            tr += ' <th class="text-center" scope="row">'
+                            tr += ' <input type="checkbox" name="item.product_name" value="' + v.Product_id +'" checked="item.check" />'
+                            tr += ' <img src="/Uploads/Products/'+v.Image+'" alt="Cart product Image">'
+                            tr += ' </th>'
+                            tr += ' <td class="text-center">'
+                            tr += ' <span class="whish-title">' + v.Product_name + '</span>'
+                            tr += '  </td>'
+                            tr += '   <td class="text-center">'
+                            tr += '   <span class="badge badge-danger position-static">' + v.Price + '</span>'
+                            tr += ' </td>'
+                            tr += ' <td class="text-center">'
+                            tr += '  <div class="product-count style">'
+                            tr += ' <div class="count d-flex justify-content-center">'
+                            tr += '  <input type="number" min="1" max="10" step="1" id="quantity" value="'+v.Quantity+'">'
+                            tr += '  <div class="button-group">'
+                            tr += ' <button class="count-btn increment"><i class="fas fa-chevron-up"></i></button>'
+                            tr += '<button class="count-btn decrement"><i class="fas fa-chevron-down" ></i ></button > '
+                            tr += ' </div>'
+                            tr += '  </div>'
+                            tr += '  </div>'
+                            tr += ' </td>'
+                            tr += ' <td class="text-center">'
+                            tr += '  <span class="whish-list-price">' + v.Sum + '</span > '
+                            tr += '</td>'
+                            tr += '<td class="text-center">'
+                            //tr += '  <a href="#"> <span class="trash"><i class="fas fa-trash-alt"></i> </span></a>'
+                            tr += '  <button  class="btn btn-primary" name="deletecart"><i class="fas fa-trash-alt"></i></button>'
+                            tr += '  <button  class="btn btn-primary" name="updatecart"><i class="fas fa-trash-alt"></i></button>'
+                            tr += ' </td>'
+
+
+                            tr += '</tr > '
+                            $('.tbody').append(tr);
+                        });
+                    }
+
+                }
+            });
+        }
+
+       
+
+        function loadDsSanpham() {
+            $.ajax({
+                url: "/Home/DsSanpham",
+                type: "GET",
+                success: function (data) {
+                    //console.log(data);
+                    if (data.code == 200) {
+                        $.each(data.dssanpham, function (k, v) {
+                            let tr = '<tr>'
+                            tr += '<td>' + v.Id + '</td>'
+                            tr += '<td>' + v.Name + '</td>'
+                            tr += '<td>' + v.gia + '</td>'
+
+                            tr += '</tr > '
+                            $('.tbody').append(tr);
+                        });
+                    }
+                }
+            });
+        }
+                        //Load Data function
+
+    </script>
+
+
+
+
+}
